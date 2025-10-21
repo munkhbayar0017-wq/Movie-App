@@ -1,30 +1,49 @@
-import StarIcon from "@/app/_Icons/StarIcon";
-import PlayIcon from "@/app/_Icons/PlayIcon";
+"use client";
 
-export const HeroSection = ({ title, rating, description }) => {
+import Image from "next/image";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselDots,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+
+export const HeroSection = () => {
+  const heroSlides = [
+    { id: 1, img: "/HeroImage.jpg", title: "New Adventure Awaits" },
+  ];
+
   return (
-    <div className="w-[1440px] h-[600px] bg-[url('/HeroImage.jpg')] bg-cover bg-center relative mt-[24px]">
-      <div className="absolute left-[140px] bottom-[158px] w-[404px] flex flex-col gap-4">
-        <div>
-          <p className="text-[#FFFFFF] text-base font-normal leading-[24px]">
-            Now Playing:
-          </p>
-          <p className="font-bold text-[#FFFFFF] text-4xl tracking-[-0.9px]">
-            {title}
-          </p>
-          <div className="text-[#FFFFFF] flex items-center gap-1">
-            <StarIcon />
-            <p className="font-semibold text-lg text-[#FFFFFF] flex items-center gap-1">
-              {rating}
-              <span className="text-base font-normal text-[#71717A]">/10</span>
-            </p>
-          </div>
-        </div>
-        <div className="text-[#FFFFFF] text-xs font-normal">{description}</div>
-        <button className="h-[40px] w-[145px] bg-[#F4F4F5] flex items-center justify-center py-2 px-4 gap-2 rounded-md text-sm font-medium text-[#18181B]">
-          <PlayIcon /> Watch Trailer
-        </button>
-      </div>
-    </div>
+    <section className="w-full max-w-[1440px] h-[600px] relative mt-[24px] mx-auto px-4">
+      <Carousel className="w-full h-full" opts={{ loop: true }}>
+        <CarouselContent className="h-full">
+          {heroSlides.map((slide) => (
+            <CarouselItem key={slide.id} className="w-full h-full">
+              <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                <Image
+                  src={slide.img}
+                  alt={slide.title}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 1440px) 100vw, 1440px"
+                />
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <h2 className="text-white text-4xl font-bold tracking-tight drop-shadow-lg">
+                    {slide.title}
+                  </h2>
+                </div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+
+        <CarouselPrevious className="left-6 bg-white/70 hover:bg-white" />
+        <CarouselNext className="right-6 bg-white/70 hover:bg-white" />
+        <CarouselDots className="bottom-6" />
+      </Carousel>
+    </section>
   );
 };
