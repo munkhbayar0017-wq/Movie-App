@@ -3,6 +3,7 @@
 import { MovieCard } from "@/app/_components/MovieCard";
 import SeeMoreIcon from "@/app/_Icons/SeeMoreIcon";
 import { useEffect, useState } from "react";
+import { LoadingMovieList } from "./LoadingMovieList";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -22,13 +23,15 @@ export const UpcomingList = () => {
     });
     const data = await UpcomingResponse.json();
     setUpcomingData(data.results);
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
   };
   useEffect(() => {
     UpcomingDataList();
   }, []);
   if (loading) {
-    return <div>...loading</div>;
+    return <LoadingMovieList />;
   }
   return (
     <div className="flex flex-col gap-8 pt-[52px]">

@@ -3,6 +3,7 @@
 import { MovieCard } from "@/app/_components/MovieCard";
 import SeeMoreIcon from "@/app/_Icons/SeeMoreIcon";
 import { useState, useEffect } from "react";
+import { LoadingMovieList } from "./LoadingMovieList";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -23,13 +24,15 @@ export const PopularList = () => {
     });
     const data = await PopularResponse.json();
     setPopularData(data.results);
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
   };
   useEffect(() => {
     PopularDataList();
   }, []);
   if (loading) {
-    return <div>...loading</div>;
+    return <LoadingMovieList />;
   }
 
   return (

@@ -3,6 +3,7 @@
 import { MovieCard } from "@/app/_components/MovieCard";
 import SeeMoreIcon from "@/app/_Icons/SeeMoreIcon";
 import { useState, useEffect } from "react";
+import { LoadingMovieList } from "./LoadingMovieList";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -23,13 +24,15 @@ export const TopRatedList = () => {
     });
     const data = await TopRatedResponse.json();
     setTopRatedData(data.results);
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
   };
   useEffect(() => {
     TopRatedDataList();
   }, []);
   if (loading) {
-    return <div>...loading</div>;
+    return <LoadingMovieList />;
   }
 
   return (
