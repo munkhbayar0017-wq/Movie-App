@@ -3,14 +3,14 @@
 import { MovieCard } from "@/app/_components/MovieCard";
 import SeeMoreIcon from "@/app/_Icons/SeeMoreIcon";
 import { useEffect, useState } from "react";
-import { LoadingMovieList } from "./LoadingMovieList";
+import { LoadingMovieList } from "../skeletons/LoadingMovieList";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
 const ACCESS_TOKEN =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjI5ZmNiMGRmZTNkMzc2MWFmOWM0YjFjYmEyZTg1NiIsIm5iZiI6MTc1OTcxMTIyNy43OTAwMDAyLCJzdWIiOiI2OGUzMGZmYjFlN2Y3MjAxYjI5Y2FiYmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.M0DQ3rCdsWnMw8U-8g5yGXx-Ga00Jp3p11eRyiSxCuY";
 export const UpcomingList = () => {
-  const [UpcomingData, setUpcomingData] = useState([]);
+  const [upcomingData, setUpcomingData] = useState([]);
   const [loading, setLoading] = useState(false);
   const UpcomingDataList = async () => {
     setLoading(true);
@@ -25,7 +25,7 @@ export const UpcomingList = () => {
     setUpcomingData(data.results);
     setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 2000);
   };
   useEffect(() => {
     UpcomingDataList();
@@ -45,13 +45,13 @@ export const UpcomingList = () => {
         </button>
       </div>
       <div className="grid grid-cols-5 gap-8 px-[32px]">
-        {UpcomingData.slice(0, 10).map((movie) => {
+        {upcomingData.slice(0, 10).map((movie) => {
           return (
             <MovieCard
               key={movie.id}
               title={movie.title}
               rating={movie.vote_average}
-              image={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+              image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
             />
           );
         })}

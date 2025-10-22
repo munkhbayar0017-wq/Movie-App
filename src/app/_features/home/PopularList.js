@@ -3,7 +3,7 @@
 import { MovieCard } from "@/app/_components/MovieCard";
 import SeeMoreIcon from "@/app/_Icons/SeeMoreIcon";
 import { useState, useEffect } from "react";
-import { LoadingMovieList } from "./LoadingMovieList";
+import { LoadingMovieList } from "../skeletons/LoadingMovieList";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -11,7 +11,7 @@ const ACCESS_TOKEN =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjI5ZmNiMGRmZTNkMzc2MWFmOWM0YjFjYmEyZTg1NiIsIm5iZiI6MTc1OTcxMTIyNy43OTAwMDAyLCJzdWIiOiI2OGUzMGZmYjFlN2Y3MjAxYjI5Y2FiYmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.M0DQ3rCdsWnMw8U-8g5yGXx-Ga00Jp3p11eRyiSxCuY";
 
 export const PopularList = () => {
-  const [PopularData, setPopularData] = useState([]);
+  const [popularData, setPopularData] = useState([]);
   const [loading, setLoading] = useState(false);
   const PopularDataList = async () => {
     setLoading(true);
@@ -26,7 +26,7 @@ export const PopularList = () => {
     setPopularData(data.results);
     setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 2000);
   };
   useEffect(() => {
     PopularDataList();
@@ -47,7 +47,7 @@ export const PopularList = () => {
         </button>
       </div>
       <div className="grid grid-cols-5 gap-8 px-[32px]">
-        {PopularData.slice(0, 10).map((movie) => {
+        {popularData.slice(0, 10).map((movie) => {
           return (
             <MovieCard
               key={movie.id}

@@ -3,7 +3,7 @@
 import { MovieCard } from "@/app/_components/MovieCard";
 import SeeMoreIcon from "@/app/_Icons/SeeMoreIcon";
 import { useState, useEffect } from "react";
-import { LoadingMovieList } from "./LoadingMovieList";
+import { LoadingMovieList } from "../skeletons/LoadingMovieList";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -11,7 +11,7 @@ const ACCESS_TOKEN =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjI5ZmNiMGRmZTNkMzc2MWFmOWM0YjFjYmEyZTg1NiIsIm5iZiI6MTc1OTcxMTIyNy43OTAwMDAyLCJzdWIiOiI2OGUzMGZmYjFlN2Y3MjAxYjI5Y2FiYmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.M0DQ3rCdsWnMw8U-8g5yGXx-Ga00Jp3p11eRyiSxCuY";
 
 export const TopRatedList = () => {
-  const [TopRatedData, setTopRatedData] = useState([]);
+  const [topRatedData, setTopRatedData] = useState([]);
   const [loading, setLoading] = useState(false);
   const TopRatedDataList = async () => {
     setLoading(true);
@@ -26,13 +26,13 @@ export const TopRatedList = () => {
     setTopRatedData(data.results);
     setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 2000);
   };
   useEffect(() => {
     TopRatedDataList();
   }, []);
   if (loading) {
-    return <LoadingMovieList />;
+    return <LoadingMovieList className="py=[52px]" />;
   }
 
   return (
@@ -47,7 +47,7 @@ export const TopRatedList = () => {
         </button>
       </div>
       <div className="grid grid-cols-5 gap-8 px-[32px]">
-        {TopRatedData.slice(0, 10).map((movie) => {
+        {topRatedData.slice(0, 10).map((movie) => {
           return (
             <MovieCard
               key={movie.id}

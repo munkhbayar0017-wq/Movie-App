@@ -5,6 +5,8 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import RightIcon from "@/app/_Icons/RightIcon";
+import LeftIcon from "@/app/_Icons/LeftIcon";
 
 const CarouselContext = React.createContext(null);
 
@@ -176,9 +178,9 @@ function CarouselPrevious({
       variant={variant}
       size={size}
       className={cn(
-        "absolute size-8 rounded-full",
+        "absolute size-10 rounded-full border-none",
         orientation === "horizontal"
-          ? "top-1/2 -left-0 -translate-y-1/2"
+          ? "top-1/2 left-[44px] -translate-y-1/2"
           : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
@@ -186,7 +188,7 @@ function CarouselPrevious({
       onClick={scrollPrev}
       {...props}
     >
-      <ArrowLeft />
+      <LeftIcon />
       <span className="sr-only">Previous slide</span>
     </Button>
   );
@@ -206,9 +208,9 @@ function CarouselNext({
       variant={variant}
       size={size}
       className={cn(
-        "absolute size-8 rounded-full",
+        "absolute size-10 rounded-full border-none",
         orientation === "horizontal"
-          ? "top-1/2 -right-0 -translate-y-1/2"
+          ? "top-1/2 right-[44px] -translate-y-1/2"
           : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
         className
       )}
@@ -216,7 +218,7 @@ function CarouselNext({
       onClick={scrollNext}
       {...props}
     >
-      <ArrowRight />
+      <RightIcon />
       <span className="sr-only">Next slide</span>
     </Button>
   );
@@ -229,7 +231,7 @@ function CarouselDots({ className, ...props }) {
     <div
       role="tablist"
       className={cn(
-        "absolute bottom-2 w-full flex items-center justify-center gap-2",
+        "absolute bottom-[37px] w-full flex items-center justify-center gap-2",
         className
       )}
       {...props}
@@ -243,8 +245,8 @@ function CarouselDots({ className, ...props }) {
           aria-controls="carousel-item"
           aria-label={`Slide ${index + 1}`}
           className={cn(
-            "size-2.5 rounded-full border border-ring cursor-pointer",
-            index === selectedIndex ? "bg-ring" : "bg-transparent"
+            "size-[8px] rounded-full cursor-pointer",
+            index === selectedIndex ? "bg-[#FFFFFF]" : "bg-[#FFFFFFCC]"
           )}
           onClick={() => scrollTo(index)}
         />
