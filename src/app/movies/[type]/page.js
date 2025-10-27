@@ -24,7 +24,7 @@ export default function Page() {
   const [upcomingData, setUpcomingData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [currentPage, setCurrentPage] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
   const param = useParams();
 
   const UpcomingDataList = async () => {
@@ -38,14 +38,19 @@ export default function Page() {
     });
     const data = await UpcomingResponse.json();
     setUpcomingData(data.results);
-
-    setLoading(false);
+    setTimeout(() => setLoading(false), 2000);
   };
   useEffect(() => {
     UpcomingDataList();
   }, [page]);
   if (loading) {
-    return <LoadingMovieList />;
+    return (
+      <div className="flex flex-col items-center justify-center">
+        <Header />
+        <LoadingMovieList />;
+        <Footer />
+      </div>
+    );
   }
   const handleClickPreviousButton = () => {
     {
@@ -62,7 +67,7 @@ export default function Page() {
   };
   console.log(page);
   return (
-    <div className="flex flex-col items-center box-border">
+    <div className="flex flex-col items-center box-border justify-center">
       <Header />
       <div className="flex flex-col gap-[32px]">
         <div className="flex flex-col gap-8 pt-[52px] items-center">

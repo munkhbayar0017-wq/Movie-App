@@ -7,6 +7,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center box-border">
       <Header />
+
       <HeroSection />
       <MovieList type="upcoming" title="Upcoming" />
       <MovieList type="popular" title="Popular" />

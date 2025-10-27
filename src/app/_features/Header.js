@@ -2,6 +2,7 @@ import MovieZIcon from "../_Icons/MovieZIcon";
 import GenreIcon from "../_Icons/GenreIcon";
 import SearchIcon from "../_Icons/SearchIcon";
 import DarkModeIcon from "../_Icons/DarkModeIcon";
+import { NavigationMenuDemo } from "./home/Genre";
 
 export const Header = () => {
   return (
@@ -12,10 +13,7 @@ export const Header = () => {
           Movie Z
         </div>
         <div className="flex gap-3 items-center ">
-          <button className="flex gap-2 items-center justify-center rounded-md w-[97px] h-[36px] border border-[#E4E4E7] text-[#18181B] text-sm font-medium leading-[20px] ">
-            <GenreIcon />
-            Genre
-          </button>
+          <NavigationMenuDemo />
           <div className="flex gap-2 items-center pl-[12px] w-[379px]  h-[36px] border border-[#E4E4E7]  rounded-md">
             <SearchIcon />
             <input placeholder="Search.." />
