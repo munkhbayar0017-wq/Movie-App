@@ -1,8 +1,7 @@
 import MovieZIcon from "../_Icons/MovieZIcon";
-import GenreIcon from "../_Icons/GenreIcon";
 import SearchIcon from "../_Icons/SearchIcon";
 import DarkModeIcon from "../_Icons/DarkModeIcon";
-import { NavigationMenuDemo } from "./home/Genre";
+import { NavigationMenuDemo } from "./Genre";
 
 export const Header = () => {
   return (

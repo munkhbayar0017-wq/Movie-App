@@ -38,7 +38,6 @@ export const MovieList = ({ type, title }) => {
   const handleClickSeeMoreButton = () => {
     router.push(`/movies/${type}`);
   };
-
   return (
     <div className="flex flex-col gap-8 pt-[52px] items-center">
       <div className="w-[1277px] h-[36px] flex justify-between items-center ">
@@ -58,6 +57,7 @@ export const MovieList = ({ type, title }) => {
           return (
             <MovieCard
               key={movie.id}
+              movieId={movie.id}
               title={movie.title}
               rating={movie.vote_average}
               image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}

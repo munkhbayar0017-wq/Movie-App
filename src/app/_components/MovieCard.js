@@ -1,7 +1,43 @@
+"use client";
+
+import { useRouter, useParams } from "next/navigation";
 import StarIcon from "../_Icons/StarIcon";
-export const MovieCard = ({ rating, title, image }) => {
+import { useState, useEffect } from "react";
+
+const BASE_URL = "https://api.themoviedb.org/3";
+
+const ACCESS_TOKEN =
+  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjI5ZmNiMGRmZTNkMzc2MWFmOWM0YjFjYmEyZTg1NiIsIm5iZiI6MTc1OTcxMTIyNy43OTAwMDAyLCJzdWIiOiI2OGUzMGZmYjFlN2Y3MjAxYjI5Y2FiYmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.M0DQ3rCdsWnMw8U-8g5yGXx-Ga00Jp3p11eRyiSxCuY";
+
+export const MovieCard = ({ rating, title, image, movieId }) => {
+  const [movieCardData, setMovieCardData] = useState([]);
+  const router = useRouter();
+  const MovieCardDataList = async () => {
+    try {
+      const movieCardEndpoint = `${BASE_URL}/movie/${movieId}?language=en-US`;
+      const movieCardResponse = await fetch(movieCardEndpoint, {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await movieCardResponse.json();
+      setMovieCardData(data.results);
+    } catch (err) {
+      console.error("Failed to fetch upcoming movies:", err);
+    }
+  };
+
+  useEffect(() => {
+    MovieCardDataList();
+  }, []);
+
+  const handleClickMovieCard = () => {
+    router.push(`/moviesDetails/${movieId}`);
+  };
+
   return (
-    <div>
+    <div onClick={handleClickMovieCard}>
       <div
         className="w-[230px] h-[340px] bg-cover bg-center rounded-t-lg"
         style={{ backgroundImage: `url(${image})` }}
