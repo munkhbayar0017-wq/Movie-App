@@ -1,7 +1,7 @@
 import MovieZIcon from "../_Icons/MovieZIcon";
 import SearchIcon from "../_Icons/SearchIcon";
 import DarkModeIcon from "../_Icons/DarkModeIcon";
-import { NavigationMenuDemo } from "./Genre";
+import { HeaderGenre } from "./HeaderGenre";
 
 export const Header = () => {
   return (
@@ -12,7 +12,7 @@ export const Header = () => {
           Movie Z
         </div>
         <div className="flex gap-3 items-center ">
-          <NavigationMenuDemo />
+          <HeaderGenre />
           <div className="flex gap-2 items-center pl-[12px] w-[379px]  h-[36px] border border-[#E4E4E7]  rounded-md">
             <SearchIcon />
             <input placeholder="Search.." />

@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { MovieCard } from "@/app/_components/MovieCard";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import MovieCrew from "@/app/_features/MovieCrew";
+import MoreLikeThis from "@/app/_features/MoreLikeThis";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -15,23 +17,30 @@ const ACCESS_TOKEN =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjI5ZmNiMGRmZTNkMzc2MWFmOWM0YjFjYmEyZTg1NiIsIm5iZiI6MTc1OTcxMTIyNy43OTAwMDAyLCJzdWIiOiI2OGUzMGZmYjFlN2Y3MjAxYjI5Y2FiYmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.M0DQ3rCdsWnMw8U-8g5yGXx-Ga00Jp3p11eRyiSxCuY";
 
 const Page = () => {
-  const [movieDetailsData, setMovieDetailsData] = useState([]);
-  const { movieId } = useParams();
-  const MovieDetailsDataList = async () => {
-    const MovieDetailsEndpoint = `${BASE_URL}/movie/${movieId}?language=en-US`;
-    const MovieDetailsResponse = await fetch(MovieDetailsEndpoint, {
+  const [movieDetailsData, setMovieDetailsData] = useState({});
+  const { id } = useParams();
+
+  const movieDetailsDataList = async () => {
+    const movieDetailsEndpoint = `${BASE_URL}/movie/${id}?language=en-US`;
+    const movieDetailsResponse = await fetch(movieDetailsEndpoint, {
       headers: {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
         "Content-Type": "application/json",
       },
     });
-    const data = await MovieDetailsResponse.json();
-    setMovieDetailsData(data.results);
+    const data = await movieDetailsResponse.json();
+    setMovieDetailsData(data);
   };
-  useEffect(() => {
-    MovieDetailsDataList();
-  }, []);
 
+  useEffect(() => {
+    movieDetailsDataList();
+  }, [id]);
+
+  let time = movieDetailsData.runtime || 0;
+  var hours = Math.floor(time / 60);
+  var minutes = time % 60;
+
+  let budget = Math.floor(movieDetailsData.revenue / 100000);
   return (
     <div className="flex flex-col items-center">
       <Header />
@@ -39,10 +48,10 @@ const Page = () => {
         <div className="flex w-[1080px] h-[72px] justify-between">
           <div>
             <p className="text-4xl font-bold leading-[40px]">
-              {movieDetailsData?.title}
+              {movieDetailsData.title}
             </p>
             <p className="text-lg font-normal leading-[28px]">
-              2024.11.26 · PG · 2h 40m
+              {movieDetailsData.release_date} · PG · {hours}h {minutes}m
             </p>
           </div>
           <div>
@@ -51,19 +60,31 @@ const Page = () => {
               <StarIcon />
               <div>
                 <p className="font-semibold text-lg text-[#09090B] flex items-center gap-1">
-                  6.9
+                  {movieDetailsData.vote_average}
                   <span className="text-base font-normal text-[#71717A]">
                     /10
                   </span>
                 </p>
-                <p className="text-base font-normal text-[#71717A]">37k</p>
+                <p className="text-base font-normal text-[#71717A]">
+                  {budget}k
+                </p>
               </div>
             </div>
           </div>
         </div>
         <div className="flex gap-8">
-          <div className="w-[290px] h-[428px] bg-[url('/PulpFiction.jpg')] bg-cover bg-center"></div>
-          <div className="w-[760px] h-[428px] bg-[url('/HeroImage.jpg')] bg-cover bg-center relative">
+          <div
+            className="w-[290px] h-[428px] bg-cover bg-center"
+            style={{
+              backgroundImage: `url(https://image.tmdb.org/t/p/original${movieDetailsData.poster_path})`,
+            }}
+          ></div>
+          <div
+            className="w-[760px] h-[428px] bg-cover bg-center relative"
+            style={{
+              backgroundImage: `url(https://image.tmdb.org/t/p/original${movieDetailsData.backdrop_path})`,
+            }}
+          >
             <div className="flex gap-3 justify-center items-center absolute left-6 top-[364px]">
               <button className="w-10 h-10 bg-[#FFFFFF] rounded-full flex items-center justify-center">
                 <PlayIcon />
@@ -77,57 +98,26 @@ const Page = () => {
         </div>
       </div>
       <div className="w-[1080px] h-[271px] flex flex-col gap-5 pt-8">
-        <Badge
-          variant="secondary"
-          className="w-min h-min rounded-full bg-background border border-[#E4E4E7]"
-        >
-          Fairy tale
-        </Badge>
-        <p className="text-base font-normal leading-[24px] h-[48px]">
-          Elphaba, a misunderstood young woman because of her green skin, and
-          Glinda, a popular girl, become friends at Shiz University in the Land
-          of Oz. After an encounter with the Wonderful Wizard of Oz, their
-          friendship reaches a crossroads.
+        <div className="flex gap-3">
+          {movieDetailsData.genres?.map((genres) => {
+            return (
+              <Badge
+                key={genres.id}
+                variant="secondary"
+                className="w-min h-min rounded-full bg-background border border-[#E4E4E7] flex"
+              >
+                {genres.name}
+              </Badge>
+            );
+          })}
+        </div>
+
+        <p className="text-base font-normal leading-[24px] h-fit">
+          {movieDetailsData.overview}
         </p>
-        <div className="flex flex-col gap-1">
-          <div className="flex gap-[53px]">
-            <p className="w-[64px] text-base font-bold leading-[28px]">
-              Director
-            </p>
-            <p>Jon M. Chu</p>
-          </div>
-          <div className="w-[1080px] h-[1px] border border-[#E4E4E7] m-1"></div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="flex gap-[53px]">
-            <p className="w-[64px] text-base font-bold leading-[28px]">
-              Writers
-            </p>
-            <p>Winnie Holzman · Dana Fox · Gregory Maguire</p>
-          </div>
-          <div className="w-[1080px] h-[1px] border border-[#E4E4E7] m-1"></div>
-        </div>
-        <div className="flex flex-col gap-1">
-          <div className="flex gap-[53px]">
-            <p className="w-[64px] text-base font-bold leading-[28px]">Stars</p>
-            <p>Cynthia Erivo · Ariana Grande · Jeff Goldblum</p>
-          </div>
-          <div className="w-[1080px] h-[1px] border border-[#E4E4E7] m-1"></div>
-        </div>
+        <MovieCrew />
       </div>
-      <div className="grid grid-cols-5 gap-8 px-[32px]">
-        {movieDetailsData.slice(0, 5).map((movie) => {
-          return (
-            <MovieCard
-              key={movie.id}
-              movieId={movie.id}
-              title={movie.title}
-              rating={movie.vote_average}
-              image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-            />
-          );
-        })}
-      </div>
+      <MoreLikeThis />
       <Footer />
     </div>
   );

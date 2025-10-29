@@ -65,7 +65,7 @@ export default function Page() {
       setCurrentPage(currentPage + 1);
     }
   };
-  console.log(page);
+
   return (
     <div className="flex flex-col items-center box-border justify-center">
       <Header />
@@ -81,6 +81,7 @@ export default function Page() {
               return (
                 <MovieCard
                   key={movie.id}
+                  movieId={movie.id}
                   title={movie.title}
                   rating={movie.vote_average}
                   image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}

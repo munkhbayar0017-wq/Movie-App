@@ -9,7 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { BadgeDemo } from "./BadgeDemo";
+import { BadgeDemo } from "../_components/BadgeDemo";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -18,7 +18,7 @@ const BASE_URL = "https://api.themoviedb.org/3";
 const ACCESS_TOKEN =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjI5ZmNiMGRmZTNkMzc2MWFmOWM0YjFjYmEyZTg1NiIsIm5iZiI6MTc1OTcxMTIyNy43OTAwMDAyLCJzdWIiOiI2OGUzMGZmYjFlN2Y3MjAxYjI5Y2FiYmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.M0DQ3rCdsWnMw8U-8g5yGXx-Ga00Jp3p11eRyiSxCuY";
 
-export function NavigationMenuDemo() {
+export function HeaderGenre() {
   const isMobile = useIsMobile();
   const [genreData, setGenreData] = useState([]);
   const router = useRouter();
@@ -36,7 +36,6 @@ export function NavigationMenuDemo() {
   useEffect(() => {
     GenreDataList();
   }, []);
-  console.log(genreData, "genreDatagenreDatagenreData");
   return (
     <NavigationMenu viewport={isMobile} className="z-50">
       <NavigationMenuList className="flex-wrap border rounded-md">
