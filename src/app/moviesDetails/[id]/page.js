@@ -5,22 +5,28 @@ import { Footer } from "../../_features/Footer";
 import { Header } from "../../_features/Header";
 import PlayIcon from "@/app/_Icons/PlayIcon";
 import { Badge } from "@/components/ui/badge";
-import { MovieCard } from "@/app/_components/MovieCard";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import MovieCrew from "@/app/_features/MovieCrew";
 import MoreLikeThis from "@/app/_features/MoreLikeThis";
-
-const BASE_URL = "https://api.themoviedb.org/3";
-
-const ACCESS_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjI5ZmNiMGRmZTNkMzc2MWFmOWM0YjFjYmEyZTg1NiIsIm5iZiI6MTc1OTcxMTIyNy43OTAwMDAyLCJzdWIiOiI2OGUzMGZmYjFlN2Y3MjAxYjI5Y2FiYmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.M0DQ3rCdsWnMw8U-8g5yGXx-Ga00Jp3p11eRyiSxCuY";
+import { ACCESS_TOKEN, BASE_URL } from "@/app/_constants";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { LoadingMovieDetails } from "@/app/_features/skeletons/LoadingMovieDetails";
 
 const Page = () => {
   const [movieDetailsData, setMovieDetailsData] = useState({});
   const { id } = useParams();
+  const [trailerUrl, setTrailerUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const movieDetailsDataList = async () => {
+    setLoading(true);
     const movieDetailsEndpoint = `${BASE_URL}/movie/${id}?language=en-US`;
     const movieDetailsResponse = await fetch(movieDetailsEndpoint, {
       headers: {
@@ -30,17 +36,49 @@ const Page = () => {
     });
     const data = await movieDetailsResponse.json();
     setMovieDetailsData(data);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
+
+  const fetchTrailer = async (movieId) => {
+    const res = await fetch(
+      `${BASE_URL}/movie/${movieId}/videos?language=en-US`,
+      {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    const trailer = data.results?.find((v) => v.type === "Trailer");
+    if (trailer) {
+      setTrailerUrl(`https://www.youtube.com/embed/${trailer.key}`);
+    }
   };
 
   useEffect(() => {
     movieDetailsDataList();
   }, [id]);
 
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center">
+        <Header />
+        <LoadingMovieDetails />
+        <Footer />
+      </div>
+    );
+  }
+
   let time = movieDetailsData.runtime || 0;
   var hours = Math.floor(time / 60);
   var minutes = time % 60;
 
   let budget = Math.floor(movieDetailsData.revenue / 100000);
+  const rate = Math.floor(movieDetailsData.vote_average * 10) / 10;
+  console.log("movieDetailsData", movieDetailsData);
   return (
     <div className="flex flex-col items-center">
       <Header />
@@ -60,7 +98,7 @@ const Page = () => {
               <StarIcon />
               <div>
                 <p className="font-semibold text-lg text-[#09090B] flex items-center gap-1">
-                  {movieDetailsData.vote_average}
+                  {rate}
                   <span className="text-base font-normal text-[#71717A]">
                     /10
                   </span>
@@ -85,19 +123,48 @@ const Page = () => {
               backgroundImage: `url(https://image.tmdb.org/t/p/original${movieDetailsData.backdrop_path})`,
             }}
           >
-            <div className="flex gap-3 justify-center items-center absolute left-6 top-[364px]">
-              <button className="w-10 h-10 bg-[#FFFFFF] rounded-full flex items-center justify-center">
-                <PlayIcon />
-              </button>
-              <p className="text-[#FFFFFF] text-base font-normal">
-                Play trailer
-              </p>
-              <p className="text-[#FFFFFF] text-base font-normal">2:35</p>
-            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button
+                  className="flex gap-3 justify-center items-center absolute left-6 top-[364px] "
+                  onClick={() => fetchTrailer(id)}
+                >
+                  <div className="w-10 h-10 bg-[#FFFFFF] rounded-full flex items-center justify-center cursor-pointer">
+                    <PlayIcon />
+                  </div>
+                  <p className="text-[#FFFFFF] text-base font-normal">
+                    Play trailer
+                  </p>
+                  <p className="text-[#FFFFFF] text-base font-normal">2:35</p>
+                </button>
+              </DialogTrigger>
+
+              <DialogContent
+                className="
+                  fixed top-1/2 left-1/2 z-50 
+                  translate-x-[-50%] translate-y-[-50%]
+                  bg-transparent border-none shadow-none 
+                  p-0 w-auto h-auto flex items-center justify-center
+                "
+              >
+                <VisuallyHidden>
+                  <DialogTitle>{movieDetailsData.title} Trailer</DialogTitle>
+                </VisuallyHidden>
+
+                {trailerUrl && (
+                  <iframe
+                    src={trailerUrl}
+                    allowFullScreen
+                    title={`${movieDetailsData.title} Trailer`}
+                    className="w-[997px] h-[561px] rounded-xl shadow-2xl"
+                  />
+                )}
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </div>
-      <div className="w-[1080px] h-[271px] flex flex-col gap-5 pt-8">
+      <div className="w-[1080px] flex flex-col gap-5 pt-8">
         <div className="flex gap-3">
           {movieDetailsData.genres?.map((genres) => {
             return (

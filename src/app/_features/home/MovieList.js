@@ -5,11 +5,8 @@ import SeeMoreIcon from "@/app/_Icons/SeeMoreIcon";
 import { useEffect, useState } from "react";
 import { LoadingMovieList } from "../skeletons/LoadingMovieList";
 import { useRouter } from "next/navigation";
+import { ACCESS_TOKEN, BASE_URL } from "@/app/_constants";
 
-const BASE_URL = "https://api.themoviedb.org/3";
-
-const ACCESS_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjI5ZmNiMGRmZTNkMzc2MWFmOWM0YjFjYmEyZTg1NiIsIm5iZiI6MTc1OTcxMTIyNy43OTAwMDAyLCJzdWIiOiI2OGUzMGZmYjFlN2Y3MjAxYjI5Y2FiYmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.M0DQ3rCdsWnMw8U-8g5yGXx-Ga00Jp3p11eRyiSxCuY";
 export const MovieList = ({ type, title }) => {
   const [upcomingData, setUpcomingData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -45,7 +42,7 @@ export const MovieList = ({ type, title }) => {
           {title}
         </p>
         <button
-          className="flex items-center justify-center gap-2 px-16px"
+          className="w-[100px] h-[36px] flex items-center justify-center gap-2 px-16px cursor-pointer rounded-lg hover:bg-black/5 transition-colors duration-300 ease-in-out"
           onClick={handleClickSeeMoreButton}
         >
           <p className="text-sm font-medium text-[#09090B]">See more</p>

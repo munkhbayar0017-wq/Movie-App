@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import StarIcon from "../_Icons/StarIcon";
 import { useState, useEffect } from "react";
 
@@ -27,26 +27,28 @@ export const MovieCard = ({ rating, title, image, movieId }) => {
       console.error("Failed to fetch upcoming movies:", err);
     }
   };
-
+  const rate = Math.round(rating * 10) / 10;
   useEffect(() => {
     MovieCardDataList();
-  }, []);
+  }, [movieCardData]);
 
   const handleClickMovieCard = () => {
     router.push(`/moviesDetails/${movieId}`);
   };
 
   return (
-    <div onClick={handleClickMovieCard}>
+    <div onClick={handleClickMovieCard} className="cursor-pointer">
       <div
         className="w-[230px] h-[340px] bg-cover bg-center rounded-t-lg"
         style={{ backgroundImage: `url(${image})` }}
-      ></div>
+      >
+        <div className="w-full h-full overflow-hidden rounded-t-lg hover:bg-black/20 transition-colors duration-300 ease-in-out"></div>
+      </div>
       <div className="w-[230px] h-[95px] bg-[#F4F4F5] rounded-b-lg p-2">
         <div className="flex items-center gap-1">
           <StarIcon />
           <p className="font-semibold text-lg text-[#09090B] flex items-center gap-1">
-            {rating}
+            {rate}
             <span className="text-base font-normal text-[#71717A]">/10</span>
           </p>
         </div>
