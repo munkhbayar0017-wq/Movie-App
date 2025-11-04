@@ -31,13 +31,13 @@ const MovieCrew = () => {
     movieCrewsDataList();
   }, [id]);
 
-  const director = movieCrewsData.crew.filter(
+  const director = movieCrewsData?.crew?.filter(
     (member) => member.job === "Director"
   );
-  const writers = movieCrewsData.crew.filter(
+  const writers = movieCrewsData?.crew?.filter(
     (member) => member.job === "Writer"
   );
-  const stars = movieCrewsData.cast.slice(0, 3);
+  const stars = movieCrewsData?.cast?.slice(0, 3);
 
   console.log("movieCrewsData", movieCrewsData);
   return (
@@ -47,21 +47,21 @@ const MovieCrew = () => {
           <p className="w-[64px] text-base font-bold leading-[28px]">
             Director
           </p>
-          <p>{director.map((d) => d.name).join(" · ") || "---"}</p>
+          <p>{director?.map((d) => d.name).join(" · ") || "---"}</p>
         </div>
         <div className="w-[1080px] h-[1px] border border-[#E4E4E7] m-1"></div>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex gap-[53px]">
           <p className="w-[64px] text-base font-bold leading-[28px]">Writers</p>
-          <p>{writers.map((w) => w.name).join(" · ") || "---"}</p>
+          <p>{writers?.map((w) => w.name).join(" · ") || "---"}</p>
         </div>
         <div className="w-[1080px] h-[1px] border border-[#E4E4E7] m-1"></div>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex gap-[53px]">
           <p className="w-[64px] text-base font-bold leading-[28px]">Stars</p>
-          <p>{stars.map((s) => s.name).join(" · ") || "---"}</p>
+          <p>{stars?.map((s) => s.name).join(" · ") || "---"}</p>
         </div>
         <div className="w-[1080px] h-[1px] border border-[#E4E4E7] m-1"></div>
       </div>

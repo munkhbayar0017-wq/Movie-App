@@ -2,40 +2,57 @@
 
 import { useRouter } from "next/navigation";
 import StarIcon from "../_Icons/StarIcon";
-import { useState, useEffect } from "react";
+import SeeMoreIcon from "../_Icons/SeeMoreIcon";
+import MiniStarIcon from "../_Icons/MiniStarIcon";
 
-const BASE_URL = "https://api.themoviedb.org/3";
-
-const ACCESS_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjI5ZmNiMGRmZTNkMzc2MWFmOWM0YjFjYmEyZTg1NiIsIm5iZiI6MTc1OTcxMTIyNy43OTAwMDAyLCJzdWIiOiI2OGUzMGZmYjFlN2Y3MjAxYjI5Y2FiYmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.M0DQ3rCdsWnMw8U-8g5yGXx-Ga00Jp3p11eRyiSxCuY";
-
-export const MovieCard = ({ rating, title, image, movieId }) => {
-  const [movieCardData, setMovieCardData] = useState([]);
+export const MovieCard = ({ rating, title, image, movieId, direction }) => {
   const router = useRouter();
-  const MovieCardDataList = async () => {
-    try {
-      const movieCardEndpoint = `${BASE_URL}/movie/${movieId}?language=en-US`;
-      const movieCardResponse = await fetch(movieCardEndpoint, {
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await movieCardResponse.json();
-      setMovieCardData(data.results);
-    } catch (err) {
-      console.error("Failed to fetch upcoming movies:", err);
-    }
-  };
-  const rate = Math.round(rating * 10) / 10;
-  useEffect(() => {
-    MovieCardDataList();
-  }, [movieCardData]);
 
   const handleClickMovieCard = () => {
     router.push(`/moviesDetails/${movieId}`);
   };
 
+  if (direction === "horizontal") {
+    return (
+      <div
+        onClick={handleClickMovieCard}
+        className="cursor-pointer flex gap-4 w-[553px] p-2"
+      >
+        <div
+          className="relative w-[67px] h-[100px] bg-cover bg-center rounded-lg overflow-hidden"
+          style={{ backgroundImage: `url(${image})` }}
+        >
+          <div className="absolute inset-0 hover:bg-black/20 transition-colors duration-300 ease-in-out"></div>
+        </div>
+
+        <div className="flex flex-col gap-3 w-[454px] h-[99px]">
+          <div>
+            <p className="font-semibold text-[#09090B] text-xl tracking-[-0.5px] drop-shadow-lg">
+              {title}
+            </p>
+            <div className="text-[#09090B] flex items-center gap-1">
+              <MiniStarIcon />
+              <p className="font-medium text-sm flex items-center gap-1">
+                {rating}
+                <span className="text-xs font-normal text-[#71717A]">/10</span>
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <div className="flex items-center justify-center text-sm font-medium ">
+              2024
+            </div>
+            <button className="w-[120px] h-[36px] flex items-center justify-center gap-2 px-16px cursor-pointer rounded-lg hover:bg-black/5 transition-colors duration-300 ease-in-out">
+              <p className="text-sm font-medium text-[#09090B]">See more</p>
+              <SeeMoreIcon />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  console.log("IMAGE URL:", image);
+  const rate = Math.round(rating * 10) / 10;
   return (
     <div onClick={handleClickMovieCard} className="cursor-pointer">
       <div

@@ -9,28 +9,28 @@ import { ACCESS_TOKEN, BASE_URL } from "@/app/_constants";
 import MoviesPage from "@/app/_components/MoviesPage";
 
 export default function Page() {
-  const [upcomingData, setUpcomingData] = useState([]);
+  const [moviesTypeData, setMoviesTypeData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
   const param = useParams();
 
-  const upcomingDataList = async () => {
+  const moviesTypeDataList = async () => {
     setLoading(true);
-    const UpcomingEndpoint = `${BASE_URL}/movie/${param.type}?language=en-US&page=${page}`;
-    const UpcomingResponse = await fetch(UpcomingEndpoint, {
+    const moviesTypeEndpoint = `${BASE_URL}/movie/${param.type}?language=en-US&page=${page}`;
+    const moviesTypeResponse = await fetch(moviesTypeEndpoint, {
       headers: {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
         "Content-Type": "application/json",
       },
     });
-    const data = await UpcomingResponse.json();
-    setUpcomingData(data.results);
+    const data = await moviesTypeResponse.json();
+    setMoviesTypeData(data.results);
     setTimeout(() => setLoading(false), 2000);
   };
 
   useEffect(() => {
-    upcomingDataList();
+    moviesTypeDataList();
   }, [page]);
 
   if (loading) {
@@ -44,7 +44,7 @@ export default function Page() {
   }
   return (
     <MoviesPage
-      upcomingData={upcomingData}
+      data={moviesTypeData}
       page={page}
       setPage={setPage}
       param={param}

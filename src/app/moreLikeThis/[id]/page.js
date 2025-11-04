@@ -15,7 +15,7 @@ export default function Page() {
   const [page, setPage] = useState(1);
   const { id } = useParams();
 
-  const UpcomingDataList = async () => {
+  const moreLikeThisList = async () => {
     setLoading(true);
     const moreLikeThisEndpoint = `${BASE_URL}/movie/${id}/similar?language=en-US&page=${page}`;
     const moreLikeThisResponse = await fetch(moreLikeThisEndpoint, {
@@ -29,7 +29,7 @@ export default function Page() {
     setTimeout(() => setLoading(false), 2000);
   };
   useEffect(() => {
-    UpcomingDataList();
+    moreLikeThisList();
   }, [page]);
   if (loading) {
     return (
@@ -43,11 +43,6 @@ export default function Page() {
   console.log(moreLikeThis, "morelikethis");
 
   return (
-    <MoviesPage
-      upcomingData={moreLikeThis}
-      page={page}
-      setPage={setPage}
-      param={""}
-    />
+    <MoviesPage data={moreLikeThis} page={page} setPage={setPage} param={""} />
   );
 }

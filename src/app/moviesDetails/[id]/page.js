@@ -78,7 +78,6 @@ const Page = () => {
 
   let budget = Math.floor(movieDetailsData.revenue / 100000);
   const rate = Math.floor(movieDetailsData.vote_average * 10) / 10;
-  console.log("movieDetailsData", movieDetailsData);
   return (
     <div className="flex flex-col items-center">
       <Header />
@@ -88,8 +87,15 @@ const Page = () => {
             <p className="text-4xl font-bold leading-[40px]">
               {movieDetailsData.title}
             </p>
-            <p className="text-lg font-normal leading-[28px]">
-              {movieDetailsData.release_date} · PG · {hours}h {minutes}m
+            <p className="text-lg font-normal leading-[28px] flex items-center gap-2">
+              <span>{movieDetailsData.release_date}</span>
+              <span>·</span>
+              {movieDetailsData.adult === false && (
+                <span className="text-lg font-normal leading-[28px]">PG</span>
+              )}
+              <span>
+                · {hours}h {minutes}m
+              </span>
             </p>
           </div>
           <div>
