@@ -51,6 +51,7 @@ const MoreLikeThis = () => {
             <MovieCard
               key={movie.id}
               movieId={movie.id}
+              year={movie.release_date}
               title={movie.title}
               rating={movie.vote_average}
               image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}

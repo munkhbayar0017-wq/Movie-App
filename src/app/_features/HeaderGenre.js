@@ -10,18 +10,12 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { BadgeDemo } from "../_components/BadgeDemo";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const BASE_URL = "https://api.themoviedb.org/3";
-
-const ACCESS_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMjI5ZmNiMGRmZTNkMzc2MWFmOWM0YjFjYmEyZTg1NiIsIm5iZiI6MTc1OTcxMTIyNy43OTAwMDAyLCJzdWIiOiI2OGUzMGZmYjFlN2Y3MjAxYjI5Y2FiYmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.M0DQ3rCdsWnMw8U-8g5yGXx-Ga00Jp3p11eRyiSxCuY";
+import { ACCESS_TOKEN, BASE_URL } from "@/app/_constants";
 
 export function HeaderGenre() {
   const isMobile = useIsMobile();
   const [genreData, setGenreData] = useState([]);
-  const router = useRouter();
   const GenreDataList = async () => {
     const GenreEndpoint = `${BASE_URL}/genre/movie/list?language=en`;
     const GenreResponse = await fetch(GenreEndpoint, {
@@ -58,8 +52,8 @@ export function HeaderGenre() {
                   return (
                     <BadgeDemo
                       key={genre.id}
-                      categories={genre.name}
-                      onClick={() => router.push(`/movies/${genre.id}`)}
+                      genre={genre.name}
+                      genreIds={genre.id}
                     />
                   );
                 })}

@@ -1,10 +1,11 @@
 "use client";
 
 import MovieZIcon from "../_Icons/MovieZIcon";
-import SearchIcon from "../_Icons/SearchIcon";
 import DarkModeIcon from "../_Icons/DarkModeIcon";
 import { HeaderGenre } from "./HeaderGenre";
 import { useRouter } from "next/navigation";
+import { HeaderSearch } from "../_components/HeaderSearch";
+import { DarkMode } from "../_components/DarkMode";
 
 export const Header = () => {
   const router = useRouter();
@@ -24,14 +25,9 @@ export const Header = () => {
         </div>
         <div className="flex gap-3 items-center">
           <HeaderGenre />
-          <div className="flex gap-2 items-center pl-[12px] w-[379px]  h-[36px] border border-[#E4E4E7]  rounded-md">
-            <SearchIcon />
-            <input placeholder="Search.." />
-          </div>
+          <HeaderSearch />
         </div>
-        <button className="w-[36px] h-[36px] flex items-center justify-center border border-[#E4E4E7]  rounded-md cursor-pointer">
-          <DarkModeIcon />
-        </button>
+        <DarkMode />
       </div>
     </div>
   );

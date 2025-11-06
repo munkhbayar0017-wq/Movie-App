@@ -8,26 +8,26 @@ import { useRouter } from "next/navigation";
 import { ACCESS_TOKEN, BASE_URL } from "@/app/_constants";
 
 export const MovieList = ({ type, title }) => {
-  const [upcomingData, setUpcomingData] = useState([]);
+  const [movieListData, setMovieListData] = useState([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const UpcomingDataList = async () => {
+  const MovieListDataList = async () => {
     setLoading(true);
-    const UpcomingEndpoint = `${BASE_URL}/movie/${type}?language=en-US&page=1`;
-    const UpcomingResponse = await fetch(UpcomingEndpoint, {
+    const movieListEndpoint = `${BASE_URL}/movie/${type}?language=en-US&page=1`;
+    const movieListResponse = await fetch(movieListEndpoint, {
       headers: {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
         "Content-Type": "application/json",
       },
     });
-    const data = await UpcomingResponse.json();
-    setUpcomingData(data.results);
+    const data = await movieListResponse.json();
+    setMovieListData(data.results);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
   };
   useEffect(() => {
-    UpcomingDataList();
+    MovieListDataList();
   }, []);
   if (loading) {
     return <LoadingMovieList />;
@@ -50,11 +50,12 @@ export const MovieList = ({ type, title }) => {
         </button>
       </div>
       <div className="grid grid-cols-5 gap-8 px-[32px]">
-        {upcomingData.slice(0, 10).map((movie) => {
+        {movieListData.slice(0, 10).map((movie) => {
           return (
             <MovieCard
               key={movie.id}
               movieId={movie.id}
+              year={movie.release_date}
               title={movie.title}
               rating={movie.vote_average}
               image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}

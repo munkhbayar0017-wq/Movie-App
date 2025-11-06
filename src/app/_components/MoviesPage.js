@@ -18,7 +18,7 @@ const titles = {
   popular: "Popular",
 };
 
-export default function MoviesPage({ data, page, setPage, param }) {
+export default function MoviesPage({ data = [], page, setPage, param }) {
   const totalPages = 50;
   const visiblePages = 3;
 
@@ -53,6 +53,7 @@ export default function MoviesPage({ data, page, setPage, param }) {
             {data.slice(0, 10).map((movie) => (
               <MovieCard
                 key={movie.id}
+                year={movie.release_date?.substring(0, 4)}
                 movieId={movie.id}
                 title={movie.title}
                 rating={movie.vote_average}
