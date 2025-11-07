@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import StarIcon from "../_Icons/StarIcon";
 import SeeMoreIcon from "../_Icons/SeeMoreIcon";
 import MiniStarIcon from "../_Icons/MiniStarIcon";
 
@@ -64,22 +63,22 @@ export const MovieCard = ({
     return (
       <div onClick={handleClickMovieCard} className="cursor-pointer">
         <div
-          className="w-[165px] h-[244px] bg-cover bg-center rounded-t-lg"
+          className="lg:w-[165px] lg:h-[244px] w-[157px] h-[233px] bg-cover bg-center rounded-t-lg"
           style={{ backgroundImage: `url(${image})` }}
         >
           <div className="w-full h-full overflow-hidden rounded-t-lg hover:bg-black/20 transition-colors duration-300 ease-in-out"></div>
         </div>
-        <div className="w-[165px] h-[87px] bg-[#F4F4F5] rounded-b-lg px-2 py-1">
+        <div className="lg:w-[165px] lg:h-[87px] w-[157px] h-[76px] bg-[#F4F4F5] rounded-b-lg px-2 py-1">
           <div className="flex items-center gap-1">
-            <StarIcon />
-            <p className="text-[#09090B] font-inter text-[14px] font-medium leading-[20px]">
+            <MiniStarIcon />
+            <p className="text-[#09090B] text-xs font-medium lg:font-semibold lg:text-lg leading-[20px]">
               {rate}
-              <span className="text-[#71717A] font-inter text-[12px] font-normal leading-[16px]">
+              <span className="text-[#71717A] font-inter lg:text-base text-xs font-normal leading-[16px]">
                 /10
               </span>
             </p>
           </div>
-          <p className="overflow-hidden text-[#09090B] text-ellipsis  font-inter text-[16px] font-normal leading-[28px] line-clamp-2">
+          <p className="text-sm lg:text-lg overflow-hidden text-[#09090B] text-ellipsis  font-inter  font-normal lg:leading-[28px] leading-[20px] line-clamp-2">
             {title}
           </p>
         </div>
@@ -90,20 +89,22 @@ export const MovieCard = ({
   return (
     <div onClick={handleClickMovieCard} className="cursor-pointer">
       <div
-        className="w-[230px] h-[340px] bg-cover bg-center rounded-t-lg"
+        className="w-[157px] h-[233px] lg:w-[230px] lg:h-[340px] bg-cover bg-center rounded-t-lg"
         style={{ backgroundImage: `url(${image})` }}
       >
         <div className="w-full h-full overflow-hidden rounded-t-lg hover:bg-black/20 transition-colors duration-300 ease-in-out"></div>
       </div>
-      <div className="w-[230px] h-[95px] bg-[#F4F4F5] rounded-b-lg p-2">
+      <div className="w-[157px] h-[76px] lg:w-[230px] lg:h-[95px] bg-[#F4F4F5] rounded-b-lg p-2">
         <div className="flex items-center gap-1">
-          <StarIcon />
-          <p className="font-semibold text-lg text-[#09090B] flex items-center gap-1">
+          <MiniStarIcon />
+          <p className="text-xs font-medium lg:font-semibold lg:text-lg text-[#09090B] flex items-center gap-1">
             {rate}
-            <span className="text-base font-normal text-[#71717A]">/10</span>
+            <span className="lg:text-base text-xs font-normal  text-[#71717A]">
+              /10
+            </span>
           </p>
         </div>
-        <p className=" text-lg text-[#09090B] text-ellipsis font-normal leading-[28px] p-1 line-clamp-2 overflow-hidden">
+        <p className="text-sm lg:text-lg text-[#09090B] text-ellipsis font-normal lg:leading-[28px] leading-[20px] lg:p-1 p-0 line-clamp-2 overflow-hidden">
           {title}
         </p>
       </div>
