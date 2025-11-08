@@ -78,121 +78,150 @@ const Page = () => {
 
   let budget = Math.floor(movieDetailsData.revenue / 100000);
   const rate = Math.floor(movieDetailsData.vote_average * 10) / 10;
+
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center min-h-screen">
       <Header />
-      <div className="flex flex-col gap-6 pt-[52px]">
-        <div className="flex w-[1080px] h-[72px] justify-between">
-          <div>
-            <p className="text-4xl font-bold leading-[40px]">
+
+      {/* Main Content */}
+      <div className="w-full max-w-[1080px] px-4 sm:px-6 lg:px-8">
+        {/* Title and Rating Section */}
+        <div className="flex items-center sm:flex-row justify-between gap-4 pt-6 sm:pt-10 lg:pt-[52px] pb-4 sm:pb-6">
+          {/* Title Info */}
+          <div className="flex-1">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-[#09090B] dark:text-white mb-2  overflow-hidden text-ellipsis line-clamp-2">
               {movieDetailsData.title}
-            </p>
-            <p className="text-lg font-normal leading-[28px] flex items-center gap-2">
+            </h1>
+            <p className="text-sm sm:text-base lg:text-lg font-normal leading-relaxed flex items-center gap-2 text-[#71717A] dark:text-gray-400 flex-wrap">
               <span>{movieDetailsData.release_date}</span>
               <span>·</span>
               {movieDetailsData.adult === false && (
-                <span className="text-lg font-normal leading-[28px]">PG</span>
+                <>
+                  <span>PG</span>
+                  <span>·</span>
+                </>
               )}
               <span>
-                · {hours}h {minutes}m
+                {hours}h {minutes}m
               </span>
             </p>
           </div>
-          <div>
-            <p className="text-xs font-medium leading-[16px]">Rating</p>
-            <div className="text-[#FFFFFF] flex items-center gap-1">
-              <StarIcon />
+
+          {/* Rating */}
+          <div className="flex sm:flex-col items-start sm:items-end gap-2">
+            <p className="hidden sm:block text-xs font-medium leading-[16px] text-[#71717A] dark:text-gray-400">
+              Rating
+            </p>
+
+            <div className="flex items-center gap-2">
+              <StarIcon className="w-7 h-7 text-yellow-400" />
               <div>
-                <p className="font-semibold text-lg text-[#09090B] flex items-center gap-1">
+                <p className="font-semibold text-base sm:text-lg text-[#09090B] dark:text-white">
                   {rate}
-                  <span className="text-base font-normal text-[#71717A]">
+                  <span className="text-sm sm:text-base font-normal text-[#71717A] dark:text-gray-400">
                     /10
                   </span>
                 </p>
-                <p className="text-base font-normal text-[#71717A]">
+                <p className="text-xs sm:text-base font-normal text-[#71717A] dark:text-gray-400">
                   {budget}k
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="flex gap-8">
+
+        {/* Images Section */}
+        <div className="flex flex-col-reverse lg:flex-row gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
+          {/* Poster - Mobile: Full width, Desktop: Side */}
           <div
-            className="w-[290px] h-[428px] bg-cover bg-center"
+            className="w-[100px] lg:w-[290px] h-[148px] sm:w-full sm:h-[450px] lg:h-[428px] bg-cover bg-center rounded-lg"
             style={{
               backgroundImage: `url(https://image.tmdb.org/t/p/original${movieDetailsData.poster_path})`,
             }}
-          ></div>
+          />
+
+          {/* Backdrop with Play Button */}
           <div
-            className="w-[760px] h-[428px] bg-cover bg-center relative"
+            className="w-full lg:flex-1 h-[250px] sm:h-[350px] lg:h-[428px] bg-cover bg-center relative rounded-lg"
             style={{
               backgroundImage: `url(https://image.tmdb.org/t/p/original${movieDetailsData.backdrop_path})`,
             }}
           >
+            {/* Dark overlay for better button visibility */}
+            <div className="absolute inset-0 bg-black/20 rounded-lg" />
+
             <Dialog>
               <DialogTrigger asChild>
                 <button
-                  className="flex gap-3 justify-center items-center absolute left-6 top-[364px] "
+                  className="flex gap-2 sm:gap-3 justify-center items-center absolute left-4 sm:left-6 bottom-4 sm:bottom-6 z-10"
                   onClick={() => fetchTrailer(id)}
                 >
-                  <div className="w-10 h-10 bg-[#FFFFFF] rounded-full flex items-center justify-center cursor-pointer">
-                    <PlayIcon />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFFFFF] rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors shadow-lg">
+                    <PlayIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </div>
-                  <p className="text-[#FFFFFF] text-base font-normal">
-                    Play trailer
-                  </p>
-                  <p className="text-[#FFFFFF] text-base font-normal">2:35</p>
+                  <div className="flex gap-2 items-center">
+                    <p className="text-[#FFFFFF] text-sm sm:text-base font-medium drop-shadow-lg">
+                      Play trailer
+                    </p>
+                    <p className="text-[#FFFFFF] text-sm sm:text-base font-normal drop-shadow-lg">
+                      2:35
+                    </p>
+                  </div>
                 </button>
               </DialogTrigger>
 
-              <DialogContent
-                className="
-                  fixed top-1/2 left-1/2 z-50 
-                  translate-x-[-50%] translate-y-[-50%]
-                  bg-transparent border-none shadow-none 
-                  p-0 w-auto h-auto flex items-center justify-center
-                "
-              >
+              <DialogContent className="max-w-[95vw] sm:max-w-[90vw] md:max-w-[80vw] lg:max-w-[997px] w-full bg-black/95 !border-0 shadow-none flex justify-center items-center p-4 sm:p-6">
                 <VisuallyHidden>
                   <DialogTitle>{movieDetailsData.title} Trailer</DialogTitle>
                 </VisuallyHidden>
 
                 {trailerUrl && (
-                  <iframe
-                    src={trailerUrl}
-                    allowFullScreen
-                    title={`${movieDetailsData.title} Trailer`}
-                    className="w-[997px] h-[561px] rounded-xl shadow-2xl"
-                  />
+                  <div className="w-full max-w-[997px] ">
+                    <iframe
+                      src={trailerUrl}
+                      allowFullScreen
+                      title={`${movieDetailsData.title} Trailer`}
+                      className="w-full aspect-video rounded-lg sm:rounded-xl shadow-2xl"
+                      style={{ minHeight: "211px" }}
+                    />
+                  </div>
                 )}
               </DialogContent>
             </Dialog>
           </div>
         </div>
-      </div>
-      <div className="w-[1080px] flex flex-col gap-5 pt-8">
-        <div className="flex gap-3">
-          {movieDetailsData.genres?.map((genres) => {
-            return (
-              <Badge
-                key={genres.id}
-                variant="secondary"
-                className="w-min h-min rounded-full bg-background border border-[#E4E4E7] flex"
-              >
-                {genres.name}
-              </Badge>
-            );
-          })}
-        </div>
 
-        <p className="text-base font-normal leading-[24px] h-fit">
-          {movieDetailsData.overview}
-        </p>
-        <MovieCrew />
+        {/* Genres, Overview, and Crew */}
+        <div className="flex flex-col gap-4 sm:gap-5 pb-8 sm:pb-12">
+          {/* Genres */}
+          <div className="flex gap-2 flex-wrap">
+            {movieDetailsData.genres?.map((genre) => (
+              <Badge
+                key={genre.id}
+                variant="secondary"
+                className="rounded-full bg-white dark:bg-gray-800 border border-[#E4E4E7] dark:border-gray-700 text-[#09090B] dark:text-white text-xs sm:text-sm px-3 py-1"
+              >
+                {genre.name}
+              </Badge>
+            ))}
+          </div>
+
+          {/* Overview */}
+          <p className="text-sm sm:text-base font-normal leading-relaxed text-[#09090B] dark:text-gray-300">
+            {movieDetailsData.overview}
+          </p>
+
+          {/* Movie Crew */}
+          <MovieCrew />
+        </div>
       </div>
+
+      {/* More Like This */}
       <MoreLikeThis />
+
       <Footer />
     </div>
   );
 };
+
 export default Page;

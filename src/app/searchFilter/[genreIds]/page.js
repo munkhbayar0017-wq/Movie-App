@@ -21,8 +21,25 @@ import { LoadingSearchFilter } from "@/app/_features/skeletons/LoadingSearchFilt
 export default function Page() {
   const [searchFilterData, setSearchFilterData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(20);
   const [page, setPage] = useState(1);
   const { genreIds } = useParams();
+
+  useEffect(() => {
+    const updateVisibleCount = () => {
+      if (window.innerWidth < 640) {
+        setVisibleCount(10);
+      } else if (window.innerWidth < 1024) {
+        setVisibleCount(15);
+      } else {
+        setVisibleCount(20);
+      }
+    };
+
+    updateVisibleCount();
+    window.addEventListener("resize", updateVisibleCount);
+    return () => window.removeEventListener("resize", updateVisibleCount);
+  }, []);
 
   const searchFilterList = async () => {
     setLoading(true);
@@ -90,15 +107,15 @@ export default function Page() {
     <div className="flex flex-col items-center box-border justify-center">
       <Header />
 
-      <div className="flex flex-col gap-[32px]">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 lg:px-0 w-full max-w-[1280px] mx-auto">
         <div className="flex flex-col gap-8 pt-[52px] items-center">
-          <div className="w-[1280px] h-[36px] flex justify-between items-center">
-            <p className="font-semibold text-2xl leading-[32px] tracking-[-0.6px] text-[#09090B]">
+          <div className="w-full flex justify-between items-center">
+            <p className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B]">
               Search results
             </p>
           </div>
-          <div className="flex gap-7 w-100%">
-            <ul className="w-[387px] h-auto">
+          <div className="flex flex-col lg:flex-row gap-7 w-full">
+            <ul className="w-full lg:w-[387px] h-auto">
               <div className="flex flex-col">
                 <p className="text-2xl font-semibold leading-[32px] tracking-[-0.6px]">
                   Genres
@@ -121,10 +138,10 @@ export default function Page() {
                 })}
               </div>
             </ul>
-            <div className="w-[1px] h-auto border border-[#E4E4E7] m-4"></div>
+            <div className="hidden lg:block w-[1px] h-auto border border-[#E4E4E7] m-4"></div>
             <div className="flex flex-col gap-8">
               <p className="text-[#09090B] font-inter text-[20px] font-semibold leading-[28px] tracking-[-0.5px]">
-                {searchFilterData.total_results} titles in &quot;
+                {searchFilterData.total_results} results for &quot;
                 {
                   genreData.find(
                     (genreName) => genreName.id === Number(genreIds)
@@ -132,18 +149,20 @@ export default function Page() {
                 }
                 &quot;
               </p>
-              <div className="grid grid-cols-4 gap-12">
-                {searchFilterData.results?.map((movie) => (
-                  <MovieCard
-                    direction="min"
-                    key={movie.id}
-                    movieId={movie.id}
-                    year={movie.release_date}
-                    title={movie.title}
-                    rating={movie.vote_average}
-                    image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-                  />
-                ))}
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-12">
+                {searchFilterData.results
+                  ?.slice(0, visibleCount)
+                  .map((movie) => (
+                    <MovieCard
+                      direction="min"
+                      key={movie.id}
+                      movieId={movie.id}
+                      year={movie.release_date}
+                      title={movie.title}
+                      rating={movie.vote_average}
+                      image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                    />
+                  ))}
               </div>
               <Pagination>
                 <PaginationContent>

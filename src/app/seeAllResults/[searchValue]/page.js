@@ -27,9 +27,26 @@ const titles = {
 export default function SeeAllResults() {
   const [seeAllResultsData, setSeeAllResultsData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(20);
   const { searchValue } = useParams();
   const [page, setPage] = useState(1);
   // const router = useRouter();
+
+  useEffect(() => {
+    const updateVisibleCount = () => {
+      if (window.innerWidth < 640) {
+        setVisibleCount(10);
+      } else if (window.innerWidth < 1024) {
+        setVisibleCount(15);
+      } else {
+        setVisibleCount(20);
+      }
+    };
+
+    updateVisibleCount();
+    window.addEventListener("resize", updateVisibleCount);
+    return () => window.removeEventListener("resize", updateVisibleCount);
+  }, []);
 
   const headerSearchDataList = async () => {
     setLoading(true);
@@ -97,26 +114,24 @@ export default function SeeAllResults() {
   console.log("seeAllResultsData", seeAllResultsData);
   if (seeAllResultsData.total_results === 0) {
     return (
-      <div className="flex flex-col items-center box-border justify-center">
+      <div className="flex flex-col items-center box-border justify-center gap-full">
         <Header />
 
-        <div className="flex flex-col gap-[32px]">
+        <div className="flex flex-col gap-8 px-4 sm:px-6 lg:px-0 w-full max-w-[1280px] mx-auto">
           <div className="flex flex-col gap-8 pt-[52px] items-center">
-            <div className="w-[1280px] h-[36px] flex justify-between items-center">
-              <p className="font-semibold text-2xl leading-[32px] tracking-[-0.6px] text-[#09090B]">
+            <div className="w-full flex justify-between items-center">
+              <p className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B]">
                 Search results
               </p>
             </div>
-            <div className="flex gap-7 w-100%">
-              <div className="flex flex-col justify-between w-[804px]">
-                <div className="flex flex-col gap-8">
-                  <p className="text-[#09090B] font-inter text-[20px] font-semibold leading-[28px] tracking-[-0.5px]">
-                    {seeAllResultsData.total_results} results for &quot;
-                    {searchValue}&quot;
-                  </p>
-                  <div className="w-100% h-[95px] border flex items-center justify-center">
-                    <p> No results found.</p>
-                  </div>
+            <div className="flex flex-col lg:flex-row gap-7 w-full">
+              <div className="flex flex-col gap-8">
+                <p className="text-[#09090B] font-inter text-[20px] font-semibold leading-[28px] tracking-[-0.5px]">
+                  {seeAllResultsData.total_results} results for &quot;
+                  {searchValue}&quot;
+                </p>
+                <div className="w-100% lg:w-[804px] h-[95px] border flex items-center justify-center">
+                  <p> No results found.</p>
                 </div>
                 <Pagination>
                   <PaginationContent>
@@ -162,8 +177,8 @@ export default function SeeAllResults() {
                   </PaginationContent>
                 </Pagination>
               </div>
-              <div className="w-[1px] h-auto border border-[#E4E4E7] m-4"></div>
-              <ul className="w-[387px] h-auto">
+              <div className="hidden lg:block w-[1px] h-auto border border-[#E4E4E7] m-4"></div>
+              <ul className="w-full lg:w-[387px] h-auto">
                 <div className="flex flex-col">
                   <p className="text-2xl font-semibold leading-[32px] tracking-[-0.6px]">
                     Genres
@@ -179,8 +194,8 @@ export default function SeeAllResults() {
                     return (
                       <BadgeDemo
                         key={genre.id}
-                        categories={genre.name}
-                        onClick={() => router.push(`/movies/${genre.id}`)}
+                        genre={genre.name}
+                        genreIds={genre.id}
                       />
                     );
                   })}
@@ -197,31 +212,33 @@ export default function SeeAllResults() {
     <div className="flex flex-col items-center box-border justify-center">
       <Header />
 
-      <div className="flex flex-col gap-[32px]">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 lg:px-0 w-full max-w-[1280px] mx-auto">
         <div className="flex flex-col gap-8 pt-[52px] items-center">
-          <div className="w-[1280px] h-[36px] flex justify-between items-center">
-            <p className="font-semibold text-2xl leading-[32px] tracking-[-0.6px] text-[#09090B]">
+          <div className="w-full flex justify-between items-center">
+            <p className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B]">
               Search results
             </p>
           </div>
-          <div className="flex gap-7 w-100%">
+          <div className="flex flex-col lg:flex-row gap-7 w-full">
             <div className="flex flex-col gap-8">
               <p className="text-[#09090B] font-inter text-[20px] font-semibold leading-[28px] tracking-[-0.5px]">
                 {seeAllResultsData.total_results} results for &quot;
                 {searchValue}&quot;
               </p>
-              <div className="grid grid-cols-4 gap-12">
-                {seeAllResultsData.results?.map((movie) => (
-                  <MovieCard
-                    direction="min"
-                    key={movie.id}
-                    movieId={movie.id}
-                    year={movie.release_date}
-                    title={movie.title}
-                    rating={movie.vote_average}
-                    image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-                  />
-                ))}
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-12">
+                {seeAllResultsData.results
+                  ?.slice(0, visibleCount)
+                  .map((movie) => (
+                    <MovieCard
+                      direction="min"
+                      key={movie.id}
+                      movieId={movie.id}
+                      year={movie.release_date}
+                      title={movie.title}
+                      rating={movie.vote_average}
+                      image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                    />
+                  ))}
               </div>
               <Pagination>
                 <PaginationContent>
@@ -267,8 +284,8 @@ export default function SeeAllResults() {
                 </PaginationContent>
               </Pagination>
             </div>
-            <div className="w-[1px] h-auto border border-[#E4E4E7] m-4"></div>
-            <ul className="w-[387px] h-auto">
+            <div className="hidden lg:block w-[1px] h-auto border border-[#E4E4E7] m-4"></div>
+            <ul className="w-full lg:w-[387px] h-auto">
               <div className="flex flex-col">
                 <p className="text-2xl font-semibold leading-[32px] tracking-[-0.6px]">
                   Genres
@@ -281,7 +298,13 @@ export default function SeeAllResults() {
               </div>
               <div className="flex flex-wrap max-h-[333px] w-full gap-4 overflow-y-auto">
                 {genreData.map((genre) => {
-                  return <BadgeDemo key={genre.id} genre={genre.name} />;
+                  return (
+                    <BadgeDemo
+                      key={genre.id}
+                      genre={genre.name}
+                      genreIds={genre.id}
+                    />
+                  );
                 })}
               </div>
             </ul>

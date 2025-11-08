@@ -61,7 +61,10 @@ export const MovieCard = ({
   const rate = Math.round(rating * 10) / 10;
   if (direction === "min") {
     return (
-      <div onClick={handleClickMovieCard} className="cursor-pointer">
+      <div
+        onClick={handleClickMovieCard}
+        className="cursor-pointer flex flex-col items-center"
+      >
         <div
           className="lg:w-[165px] lg:h-[244px] w-[157px] h-[233px] bg-cover bg-center rounded-t-lg"
           style={{ backgroundImage: `url(${image})` }}
@@ -87,7 +90,10 @@ export const MovieCard = ({
   }
 
   return (
-    <div onClick={handleClickMovieCard} className="cursor-pointer">
+    <div
+      onClick={handleClickMovieCard}
+      className="cursor-pointer flex flex-col items-center"
+    >
       <div
         className="w-[157px] h-[233px] lg:w-[230px] lg:h-[340px] bg-cover bg-center rounded-t-lg"
         style={{ backgroundImage: `url(${image})` }}

@@ -38,18 +38,20 @@ export default function MoviesPage({ data = [], page, setPage, param }) {
   };
 
   return (
-    <div className="flex flex-col items-center box-border justify-center">
+    <div className="flex flex-col items-center box-border justify-center min-h-screen">
       <Header />
 
-      <div className="flex flex-col gap-[32px]">
-        <div className="flex flex-col gap-8 pt-[52px] items-center">
-          <div className="w-[1277px] h-[36px] flex justify-between items-center">
-            <p className="font-semibold text-2xl leading-[32px] tracking-[-0.6px] text-[#09090B]">
+      <div className="flex flex-col gap-6 md:gap-8 w-full px-4 md:px-6 lg:px-8">
+        {/* Title Section */}
+        <div className="flex flex-col gap-6 md:gap-8 pt-6 md:pt-10 lg:pt-[52px] items-center">
+          <div className="w-full max-w-[1277px] flex justify-between items-center">
+            <h1 className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B] dark:text-white">
               {param ? titles[param.type] : "More like this"}
-            </p>
+            </h1>
           </div>
 
-          <div className="grid grid-cols-5 gap-8 px-[32px]">
+          {/* Movies Grid */}
+          <div className="w-full max-w-[1277px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8 items-center justify-center">
             {data.slice(0, 10).map((movie) => (
               <MovieCard
                 key={movie.id}
@@ -63,46 +65,83 @@ export default function MoviesPage({ data = [], page, setPage, param }) {
           </div>
         </div>
 
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={handleClickPreviousButton}
-                className={page === 1 ? "opacity-50 pointer-events-none" : ""}
-              />
-            </PaginationItem>
-            {Array.from({ length: endPage - startPage + 1 }, (_, i) => {
-              const pageNum = startPage + i;
-              return (
-                <PaginationItem key={pageNum}>
-                  <PaginationLink
-                    href="#"
-                    isActive={pageNum === page}
-                    onClick={() => handlePageClick(pageNum)}
-                  >
-                    {pageNum}
-                  </PaginationLink>
-                </PaginationItem>
-              );
-            })}
-            {endPage < totalPages && (
+        {/* Pagination */}
+        <div className="w-full max-w-[1277px] flex justify-center py-6 md:py-8">
+          <Pagination>
+            <PaginationContent className="flex-wrap gap-1 sm:gap-2">
+              {/* Previous Button */}
               <PaginationItem>
-                <PaginationEllipsis />
+                <PaginationPrevious
+                  href="#"
+                  onClick={handleClickPreviousButton}
+                  className={`text-xs sm:text-sm ${
+                    page === 1 ? "opacity-50 pointer-events-none" : ""
+                  }`}
+                />
               </PaginationItem>
-            )}
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={handleClickNextButton}
-                className={
-                  page === totalPages ? "opacity-50 pointer-events-none" : ""
-                }
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+
+              {/* Page Numbers - Hide on mobile, show abbreviated */}
+              <div className="hidden sm:flex items-center gap-1">
+                {Array.from({ length: endPage - startPage + 1 }, (_, i) => {
+                  const pageNum = startPage + i;
+                  return (
+                    <PaginationItem key={pageNum}>
+                      <PaginationLink
+                        href="#"
+                        isActive={pageNum === page}
+                        onClick={() => handlePageClick(pageNum)}
+                        className="text-xs sm:text-sm"
+                      >
+                        {pageNum}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+                {endPage < totalPages && (
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                )}
+              </div>
+
+              {/* Mobile: Current Page Display */}
+              <div className="sm:hidden flex items-center px-3 py-1.5 text-sm font-medium text-[#09090B] dark:text-white">
+                {Array.from({ length: endPage - startPage + 1 }, (_, i) => {
+                  const pageNum = startPage + i;
+                  return (
+                    <PaginationItem key={pageNum}>
+                      <PaginationLink
+                        href="#"
+                        isActive={pageNum === page}
+                        onClick={() => handlePageClick(pageNum)}
+                      >
+                        {pageNum}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+                {endPage < totalPages && (
+                  <PaginationItem>
+                    <PaginationEllipsis />
+                  </PaginationItem>
+                )}
+              </div>
+
+              {/* Next Button */}
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={handleClickNextButton}
+                  className={`text-xs sm:text-sm ${
+                    page === totalPages ? "opacity-50 pointer-events-none" : ""
+                  }`}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
       </div>
+
       <Footer />
     </div>
   );
