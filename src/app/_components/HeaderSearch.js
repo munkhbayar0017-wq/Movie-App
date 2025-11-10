@@ -50,7 +50,7 @@ export const HeaderSearch = () => {
   };
 
   return (
-    <div className="relative w-[36px] sm:w-auto">
+    <div className="relative w-auto">
       {/* Search Input */}
       <div className="flex gap-2 items-center lg:pl-3 pl-2.5 w-full sm:w-[300px] md:w-[350px] lg:w-[379px] h-[36px] border border-[#E4E4E7] dark:border-gray-700 rounded-md bg-white dark:bg-gray-800">
         <SearchIcon className="w-4 h-4 shrink-0 text-gray-500 dark:text-gray-400" />

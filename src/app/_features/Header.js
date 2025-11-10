@@ -5,12 +5,20 @@ import { HeaderGenre } from "./HeaderGenre";
 import { useRouter } from "next/navigation";
 import { HeaderSearch } from "../_components/HeaderSearch";
 import { DarkMode } from "../_components/DarkMode";
+import { useMediaQuery } from "react-responsive";
+import { HeaderMobileSearch } from "../_components/HeaderMobileSearch";
 
 export const Header = () => {
   const router = useRouter();
   const handleClickMovieZButton = () => {
     router.push(`/`);
   };
+
+  const isMobile = useMediaQuery({
+    query: "(max-width: 640px)",
+  });
+
+  console.log("isMobile", isMobile);
 
   return (
     <div className="w-full h-[56px] sm:h-[59px] flex items-center justify-center py-3 sm:py-4 px-4 md:px-6 lg:px-8">
@@ -26,8 +34,14 @@ export const Header = () => {
 
         {/* Center - Genre and Search */}
         <div className="flex gap-2 sm:gap-3 items-center flex-1 justify-end sm:justify-center  md:justify-center lg:justify-center">
-          <HeaderGenre />
-          <HeaderSearch />
+          {/* {!isMobile ? ( */}
+          <div className="hidden lg:flex gap-3 ">
+            <HeaderGenre />
+            <HeaderSearch />
+          </div>
+          {/* ) : ( */}
+          <HeaderMobileSearch />
+          {/* )} */}
         </div>
 
         {/* Right - Dark Mode */}

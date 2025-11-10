@@ -131,10 +131,10 @@ const Page = () => {
         </div>
 
         {/* Images Section */}
-        <div className="flex flex-col-reverse lg:flex-row gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
+        <div className="flex flex-row flex-wrap lg:flex-row gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
           {/* Poster - Mobile: Full width, Desktop: Side */}
           <div
-            className="w-[100px] lg:w-[290px] h-[148px] sm:w-full sm:h-[450px] lg:h-[428px] bg-cover bg-center rounded-lg"
+            className="w-[100px] lg:w-[290px] h-[148px] sm:w-full sm:h-[450px] lg:h-[428px] bg-cover bg-center rounded-lg order-2 lg:order-1"
             style={{
               backgroundImage: `url(https://image.tmdb.org/t/p/original${movieDetailsData.poster_path})`,
             }}
@@ -142,7 +142,7 @@ const Page = () => {
 
           {/* Backdrop with Play Button */}
           <div
-            className="w-full lg:flex-1 h-[250px] sm:h-[350px] lg:h-[428px] bg-cover bg-center relative rounded-lg"
+            className="w-full lg:flex-1 h-[250px] sm:h-[350px] lg:h-[428px] bg-cover bg-center relative rounded-lg order-1"
             style={{
               backgroundImage: `url(https://image.tmdb.org/t/p/original${movieDetailsData.backdrop_path})`,
             }}
@@ -189,31 +189,32 @@ const Page = () => {
               </DialogContent>
             </Dialog>
           </div>
-        </div>
 
-        {/* Genres, Overview, and Crew */}
-        <div className="flex flex-col gap-4 sm:gap-5 pb-8 sm:pb-12">
-          {/* Genres */}
-          <div className="flex gap-2 flex-wrap">
-            {movieDetailsData.genres?.map((genre) => (
-              <Badge
-                key={genre.id}
-                variant="secondary"
-                className="rounded-full bg-white dark:bg-gray-800 border border-[#E4E4E7] dark:border-gray-700 text-[#09090B] dark:text-white text-xs sm:text-sm px-3 py-1"
-              >
-                {genre.name}
-              </Badge>
-            ))}
+          <div className="flex flex-col gap-4 sm:gap-5 order-3 w-[200px] sm:w-full">
+            {/* Genres */}
+            <div className="flex gap-2 flex-wrap">
+              {movieDetailsData.genres?.map((genre) => (
+                <Badge
+                  key={genre.id}
+                  variant="secondary"
+                  className="rounded-full bg-white dark:bg-gray-800 border border-[#E4E4E7] dark:border-gray-700 text-[#09090B] dark:text-white text-xs sm:text-sm px-3 py-1"
+                >
+                  {genre.name}
+                </Badge>
+              ))}
+            </div>
+
+            {/* Overview */}
+            <p className="text-sm sm:text-base font-normal leading-relaxed text-[#09090B] dark:text-gray-300">
+              {movieDetailsData.overview}
+            </p>
           </div>
-
-          {/* Overview */}
-          <p className="text-sm sm:text-base font-normal leading-relaxed text-[#09090B] dark:text-gray-300">
-            {movieDetailsData.overview}
-          </p>
-
-          {/* Movie Crew */}
-          <MovieCrew />
         </div>
+
+        {/* Genres, Overview */}
+
+        {/* Movie Crew */}
+        <MovieCrew />
       </div>
 
       {/* More Like This */}

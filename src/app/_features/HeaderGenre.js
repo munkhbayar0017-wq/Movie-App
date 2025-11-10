@@ -16,6 +16,7 @@ import { ACCESS_TOKEN, BASE_URL } from "@/app/_constants";
 export function HeaderGenre() {
   const isMobile = useIsMobile();
   const [genreData, setGenreData] = useState([]);
+
   const GenreDataList = async () => {
     const GenreEndpoint = `${BASE_URL}/genre/movie/list?language=en`;
     const GenreResponse = await fetch(GenreEndpoint, {
@@ -27,6 +28,7 @@ export function HeaderGenre() {
     const data = await GenreResponse.json();
     setGenreData(data.genres || []);
   };
+
   useEffect(() => {
     GenreDataList();
   }, []);
