@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import SearchIcon from "../_Icons/SearchIcon";
 import { HeaderSearch } from "./HeaderSearch";
-import DownIcon from "../_Icons/DownIcon";
 import EscIcon from "../_Icons/EscIcon";
+import { useState } from "react";
 import { HeaderGenre } from "../_features/HeaderGenre";
 
-export const HeaderMobileSearch = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export const HeaderMobileSearch = ({ setIsOpen, isOpen }) => {
+  const [genreOpen, setGenreOpen] = useState();
 
   const handleClickSearchButton = () => {
     setIsOpen(true);
@@ -18,15 +17,12 @@ export const HeaderMobileSearch = () => {
     setIsOpen(false);
   };
 
-  const handleClickDownButton = () => {
-    console.log("genre orno");
-  };
-
+  console.log("genreOpen", genreOpen);
   return (
-    <div className="relative lg:hidden md:hidden ">
+    <div className="relative lg:hidden md:hidden">
       {!isOpen && (
         <div
-          className="w-9 h-9 border border-[#E4E4E7] rounded-md flex items-center justify-center"
+          className="w-9 h-9 border border-[#E4E4E7] dark:border-[#27272A] rounded-md flex items-center justify-center cursor-pointer"
           onClick={handleClickSearchButton}
         >
           <SearchIcon />
@@ -34,20 +30,14 @@ export const HeaderMobileSearch = () => {
       )}
 
       {isOpen && (
-        <div className="flex w-full h-[40px] items-center gap-2 border border-[#E4E4E7] rounded-md px-2">
-          <button
-            className="w-9 h-9 border border-[#E4E4E7] rounded-md flex items-center justify-center"
-            onClick={handleClickDownButton}
-          >
-            <DownIcon />
-          </button>
-
+        <div className="flex w-full h-[40px] items-center gap-2">
+          <HeaderGenre />
           <div className="flex-1">
             <HeaderSearch />
           </div>
 
           <button
-            className="w-9 h-9 border border-[#E4E4E7] rounded-md flex items-center justify-center"
+            className="w-9 h-9 flex items-center justify-center cursor-pointer"
             onClick={handleClickEscButton}
           >
             <EscIcon />

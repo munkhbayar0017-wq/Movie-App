@@ -15,92 +15,81 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { MovieCard } from "@/app/_components/MovieCard";
-import { BadgeDemo } from "@/app/_components/BadgeDemo";
 import { LoadingSearchFilter } from "@/app/_features/skeletons/LoadingSearchFilter";
 
 export default function Page() {
+  const { genreIds } = useParams();
+  const [selectedGenres, setSelectedGenres] = useState(
+    genreIds ? [Number(genreIds)] : []
+  );
+
+  const [genreData, setGenreData] = useState([]);
   const [searchFilterData, setSearchFilterData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [visibleCount, setVisibleCount] = useState(20);
   const [page, setPage] = useState(1);
-  const { genreIds } = useParams();
+  const router = useRouter();
+
+  const fetchGenres = async () => {
+    const res = await fetch(`${BASE_URL}/genre/movie/list?language=en`, {
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    setGenreData(data.genres || []);
+  };
+
+  useEffect(() => {
+    fetchGenres();
+  }, []);
 
   useEffect(() => {
     const updateVisibleCount = () => {
-      if (window.innerWidth < 640) {
-        setVisibleCount(10);
-      } else if (window.innerWidth < 1024) {
-        setVisibleCount(15);
-      } else {
-        setVisibleCount(20);
-      }
+      if (window.innerWidth < 640) setVisibleCount(10);
+      else if (window.innerWidth < 1024) setVisibleCount(15);
+      else setVisibleCount(20);
     };
-
     updateVisibleCount();
     window.addEventListener("resize", updateVisibleCount);
     return () => window.removeEventListener("resize", updateVisibleCount);
   }, []);
 
-  const searchFilterList = async () => {
+  const fetchMovies = async () => {
+    if (selectedGenres.length === 0) return;
     setLoading(true);
-    const searchFilterEndpoint = `${BASE_URL}/discover/movie?language=en&with_genres=${genreIds}&page=${page}`;
-    const searchFilterResponse = await fetch(searchFilterEndpoint, {
+    const genreParam = selectedGenres.join(",");
+    const endpoint = `${BASE_URL}/discover/movie?language=en&with_genres=${genreParam}&page=${page}`;
+    const res = await fetch(endpoint, {
       headers: {
         Authorization: `Bearer ${ACCESS_TOKEN}`,
         "Content-Type": "application/json",
       },
     });
-    const data = await searchFilterResponse.json();
+    const data = await res.json();
     setSearchFilterData(data);
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 800);
   };
 
-  const [genreData, setGenreData] = useState([]);
-  const router = useRouter();
-  const GenreDataList = async () => {
-    const GenreEndpoint = `${BASE_URL}/genre/movie/list?language=en`;
-    const GenreResponse = await fetch(GenreEndpoint, {
-      headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await GenreResponse.json();
-    setGenreData(data.genres || []);
-  };
   useEffect(() => {
-    GenreDataList();
-  }, []);
+    fetchMovies();
+  }, [selectedGenres, page]);
 
-  useEffect(() => {
-    searchFilterList();
-  }, [page, genreIds]);
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center">
-        <Header />
-        <LoadingSearchFilter />
-        <Footer />
-      </div>
+  const toggleGenre = (id) => {
+    setPage(1);
+    setSelectedGenres((prev) =>
+      prev.includes(id) ? prev.filter((g) => g !== id) : [...prev, id]
     );
-  }
+  };
 
   const totalPages = 50;
   const visiblePages = 3;
-
   const startPage = Math.max(1, page - Math.floor(visiblePages / 2));
   const endPage = Math.min(totalPages, startPage + visiblePages - 1);
 
   const handlePageClick = (p) => {
     if (p !== page) setPage(p);
-  };
-
-  const handleClickPreviousButton = () => {
-    if (page > 1) setPage((prev) => prev - 1);
-  };
-
-  const handleClickNextButton = () => {
-    if (page < totalPages) setPage((prev) => prev + 1);
   };
 
   return (
@@ -111,9 +100,10 @@ export default function Page() {
         <div className="flex flex-col gap-8 pt-[52px] items-center">
           <div className="w-full flex justify-between items-center">
             <p className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B]">
-              Search results
+              Filtered Search
             </p>
           </div>
+
           <div className="flex flex-col lg:flex-row gap-7 w-full">
             <ul className="w-full lg:w-[387px] h-auto">
               <div className="flex flex-col">
@@ -121,70 +111,86 @@ export default function Page() {
                   Genres
                 </p>
                 <p className="text-base font-normal leading-[24px]">
-                  See lists of movies by genre
+                  Click to select multiple genres
                 </p>
                 <div className="h-[16.5px] w-full border-b"></div>
                 <div className="h-[16.5px] w-full"></div>
               </div>
-              <div className="flex flex-wrap max-h-[333px] w-full gap-4 overflow-y-auto">
+              <div className="flex flex-wrap max-h-[333px] w-full gap-3 overflow-y-auto">
                 {genreData.map((genre) => {
+                  const isSelected = selectedGenres.includes(genre.id);
                   return (
-                    <BadgeDemo
+                    <div
                       key={genre.id}
-                      genre={genre.name}
-                      genreIds={genre.id}
-                    />
+                      onClick={() => toggleGenre(genre.id)}
+                      className={`cursor-pointer border rounded-full px-3 py-1 text-sm transition-all ${
+                        isSelected
+                          ? "bg-indigo-600 text-white border-indigo-600"
+                          : "border-gray-400 text-gray-700 hover:bg-gray-100"
+                      }`}
+                    >
+                      {genre.name}
+                    </div>
                   );
                 })}
               </div>
             </ul>
-            <div className="hidden lg:block w-[1px] h-auto border border-[#E4E4E7] m-4"></div>
-            <div className="flex flex-col gap-8">
-              <p className="text-[#09090B] font-inter text-[20px] font-semibold leading-[28px] tracking-[-0.5px]">
-                {searchFilterData.total_results} results for &quot;
-                {
-                  genreData.find(
-                    (genreName) => genreName.id === Number(genreIds)
-                  )?.name
-                }
-                &quot;
-              </p>
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-12">
-                {searchFilterData.results
-                  ?.slice(0, visibleCount)
-                  .map((movie) => (
-                    <MovieCard
-                      direction="min"
-                      key={movie.id}
-                      movieId={movie.id}
-                      year={movie.release_date}
-                      title={movie.title}
-                      rating={movie.vote_average}
-                      image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-                    />
-                  ))}
-              </div>
+
+            <div className="hidden lg:block w-[1px] h-auto border border-[#E4E4E7] dark:border-[#27272A] m-4"></div>
+
+            <div className="flex flex-col gap-8 flex-1">
+              {loading ? (
+                <LoadingSearchFilter />
+              ) : (
+                <>
+                  <p className="text-[#09090B] font-inter text-[20px] font-semibold leading-[28px] tracking-[-0.5px]">
+                    {searchFilterData.total_results || 0} results for{" "}
+                    {selectedGenres
+                      .map(
+                        (id) => genreData.find((g) => g.id === id)?.name || ""
+                      )
+                      .join(", ")}
+                  </p>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-12">
+                    {searchFilterData.results
+                      ?.slice(0, visibleCount)
+                      .map((movie) => (
+                        <MovieCard
+                          direction="min"
+                          key={movie.id}
+                          movieId={movie.id}
+                          year={movie.release_date}
+                          title={movie.title}
+                          rating={movie.vote_average}
+                          image={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                        />
+                      ))}
+                  </div>
+                </>
+              )}
+
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
                     <PaginationPrevious
                       href="#"
-                      onClick={handleClickPreviousButton}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
                       className={
                         page === 1 ? "opacity-50 pointer-events-none" : ""
                       }
                     />
                   </PaginationItem>
                   {Array.from({ length: endPage - startPage + 1 }, (_, i) => {
-                    const pageNum = startPage + i;
+                    const p = startPage + i;
                     return (
-                      <PaginationItem key={pageNum}>
+                      <PaginationItem key={p}>
                         <PaginationLink
                           href="#"
-                          isActive={pageNum === page}
-                          onClick={() => handlePageClick(pageNum)}
+                          isActive={p === page}
+                          onClick={() => handlePageClick(p)}
                         >
-                          {pageNum}
+                          {p}
                         </PaginationLink>
                       </PaginationItem>
                     );
@@ -197,7 +203,9 @@ export default function Page() {
                   <PaginationItem>
                     <PaginationNext
                       href="#"
-                      onClick={handleClickNextButton}
+                      onClick={() =>
+                        setPage((p) => Math.min(totalPages, p + 1))
+                      }
                       className={
                         page === totalPages
                           ? "opacity-50 pointer-events-none"
@@ -211,6 +219,7 @@ export default function Page() {
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );

@@ -30,7 +30,6 @@ export default function SeeAllResults() {
   const [visibleCount, setVisibleCount] = useState(20);
   const { searchValue } = useParams();
   const [page, setPage] = useState(1);
-  // const router = useRouter();
 
   useEffect(() => {
     const updateVisibleCount = () => {
@@ -128,7 +127,7 @@ export default function SeeAllResults() {
               <div className="flex flex-col gap-8">
                 <p className="text-[#09090B] font-inter text-[20px] font-semibold leading-[28px] tracking-[-0.5px]">
                   {seeAllResultsData.total_results} results for &quot;
-                  {searchValue}&quot;
+                  {decodeURIComponent(searchValue)}&quot;
                 </p>
                 <div className="w-100% lg:w-[804px] h-[95px] border flex items-center justify-center">
                   <p> No results found.</p>
@@ -177,7 +176,7 @@ export default function SeeAllResults() {
                   </PaginationContent>
                 </Pagination>
               </div>
-              <div className="hidden lg:block w-[1px] h-auto border border-[#E4E4E7] m-4"></div>
+              <div className="hidden lg:block w-[1px] h-auto border border-[#E4E4E7] dark:border-[#27272A] m-4"></div>
               <ul className="w-full lg:w-[387px] h-auto">
                 <div className="flex flex-col">
                   <p className="text-2xl font-semibold leading-[32px] tracking-[-0.6px]">
@@ -223,7 +222,7 @@ export default function SeeAllResults() {
             <div className="flex flex-col gap-8">
               <p className="text-[#09090B] font-inter text-[20px] font-semibold leading-[28px] tracking-[-0.5px]">
                 {seeAllResultsData.total_results} results for &quot;
-                {searchValue}&quot;
+                {decodeURIComponent(searchValue)}&quot;
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 lg:gap-12">
                 {seeAllResultsData.results

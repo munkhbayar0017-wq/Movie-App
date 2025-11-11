@@ -80,14 +80,12 @@ export function HeroSection() {
             return (
               <CarouselItem key={index}>
                 <Card className="border-none">
-                  {/* DESKTOP VERSION - Overlay style (>= md) */}
                   <CardContent
                     className="hidden md:flex w-full h-[500px] lg:h-[600px] items-center p-6 bg-center bg-cover relative"
                     style={{
                       backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
                     }}
                   >
-                    {/* Dark overlay */}
                     <div className="absolute inset-0 bg-black/30" />
 
                     <div className="relative z-10 w-full max-w-[404px] flex flex-col gap-4 lg:pl-[140px] px-8">
@@ -142,9 +140,7 @@ export function HeroSection() {
                     </div>
                   </CardContent>
 
-                  {/* MOBILE VERSION - Image top, content bottom (< md) */}
                   <CardContent className="md:hidden p-0">
-                    {/* Image Container */}
                     <div
                       className="w-full h-[246px] sm:h-[400px] bg-center bg-cover relative"
                       style={{
@@ -152,23 +148,20 @@ export function HeroSection() {
                       }}
                     ></div>
 
-                    {/* Content Below Image */}
-                    <div className="bg-white dark:bg-gray-900 p-4 sm:p-5 flex flex-col gap-4">
-                      {/* Now Playing & Title */}
+                    <div className="bg-white dark:bg-[#09090B] p-4 sm:p-5 flex flex-col gap-4">
                       <div className="flex justify-between">
                         <div>
                           <p className="text-[#71717A] dark:text-gray-400 text-sm font-normal">
                             Now Playing:
                           </p>
-                          {/* <div className="flex items-start justify-between gap-4 flex-wrap"> */}
+
                           <h1 className="font-bold text-[#09090B] dark:text-white text-2xl sm:text-3xl tracking-tight overflow-hidden text-ellipsis line-clamp-1">
                             {movie.title}
                           </h1>
                         </div>
 
-                        {/* Rating */}
-                        <div className="flex items-center justify-center w-[83px] h-[48px] gap-1 bg-white dark:bg-gray-800 ">
-                          <StarIcon className="w-7 h-7 text-yellow-400" />
+                        <div className="flex items-center justify-center w-[83px] h-[48px] gap-1 bg-white dark:bg-[#09090B]">
+                          <StarIcon className="w-7 h-7" />
                           <p className="font-semibold text-lg text-[#09090B] dark:text-white">
                             {rate}
                             <span className="text-base font-normal text-[#71717A] dark:text-gray-400">
@@ -176,15 +169,12 @@ export function HeroSection() {
                             </span>
                           </p>
                         </div>
-                        {/* </div> */}
                       </div>
 
-                      {/* Overview */}
                       <p className="text-[#71717A] dark:text-gray-300 text-sm leading-relaxed line-clamp-3">
                         {movie.overview}
                       </p>
 
-                      {/* Watch Trailer Button */}
                       <Dialog>
                         <DialogTrigger asChild>
                           <button

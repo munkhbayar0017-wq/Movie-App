@@ -8,7 +8,7 @@ const EscIcon = (props) => (
     {...props}
   >
     <path
-      stroke="#09090B"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       d="m8.5.5-8 8m0-8 8 8"

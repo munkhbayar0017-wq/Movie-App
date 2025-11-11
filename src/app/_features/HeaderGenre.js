@@ -33,12 +33,15 @@ export function HeaderGenre() {
     GenreDataList();
   }, []);
   return (
-    <NavigationMenu viewport={isMobile} className="z-50 hidden sm:block">
+    <NavigationMenu viewport={isMobile} className="z-50">
       <NavigationMenuList className="flex-wrap border rounded-md">
         <NavigationMenuItem className="w-[88px] h-[36px] flex items-center justify-center ">
-          <NavigationMenuTrigger>Genre</NavigationMenuTrigger>
+          <NavigationMenuTrigger className="hidden lg:flex">
+            Genre
+          </NavigationMenuTrigger>
+          <NavigationMenuTrigger className="lg:hidden"></NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="w-[577px] h-auto">
+            <ul className="lg:w-[577px] w-[300px] h-auto">
               <div className="flex flex-col">
                 <p className="text-2xl font-semibold leading-[32px] tracking-[-0.6px]">
                   Genres

@@ -83,11 +83,8 @@ const Page = () => {
     <div className="flex flex-col items-center min-h-screen">
       <Header />
 
-      {/* Main Content */}
       <div className="w-full max-w-[1080px] px-4 sm:px-6 lg:px-8">
-        {/* Title and Rating Section */}
         <div className="flex items-center sm:flex-row justify-between gap-4 pt-6 sm:pt-10 lg:pt-[52px] pb-4 sm:pb-6">
-          {/* Title Info */}
           <div className="flex-1">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-[#09090B] dark:text-white mb-2  overflow-hidden text-ellipsis line-clamp-2">
               {movieDetailsData.title}
@@ -107,7 +104,6 @@ const Page = () => {
             </p>
           </div>
 
-          {/* Rating */}
           <div className="flex sm:flex-col items-start sm:items-end gap-2">
             <p className="hidden sm:block text-xs font-medium leading-[16px] text-[#71717A] dark:text-gray-400">
               Rating
@@ -130,9 +126,7 @@ const Page = () => {
           </div>
         </div>
 
-        {/* Images Section */}
         <div className="flex flex-row flex-wrap lg:flex-row gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8">
-          {/* Poster - Mobile: Full width, Desktop: Side */}
           <div
             className="w-[100px] lg:w-[290px] h-[148px] sm:w-full sm:h-[450px] lg:h-[428px] bg-cover bg-center rounded-lg order-2 lg:order-1"
             style={{
@@ -140,14 +134,12 @@ const Page = () => {
             }}
           />
 
-          {/* Backdrop with Play Button */}
           <div
             className="w-full lg:flex-1 h-[250px] sm:h-[350px] lg:h-[428px] bg-cover bg-center relative rounded-lg order-1"
             style={{
               backgroundImage: `url(https://image.tmdb.org/t/p/original${movieDetailsData.backdrop_path})`,
             }}
           >
-            {/* Dark overlay for better button visibility */}
             <div className="absolute inset-0 bg-black/20 rounded-lg" />
 
             <Dialog>
@@ -156,8 +148,8 @@ const Page = () => {
                   className="flex gap-2 sm:gap-3 justify-center items-center absolute left-4 sm:left-6 bottom-4 sm:bottom-6 z-10"
                   onClick={() => fetchTrailer(id)}
                 >
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#FFFFFF] rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors shadow-lg">
-                    <PlayIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <div className="w-10 h-10 bg-[#FFFFFF] rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-colors shadow-lg">
+                    <PlayIcon className="w-4 h-4 flex justify-center items-center" />
                   </div>
                   <div className="flex gap-2 items-center">
                     <p className="text-[#FFFFFF] text-sm sm:text-base font-medium drop-shadow-lg">
@@ -191,33 +183,26 @@ const Page = () => {
           </div>
 
           <div className="flex flex-col gap-4 sm:gap-5 order-3 w-[200px] sm:w-full">
-            {/* Genres */}
             <div className="flex gap-2 flex-wrap">
               {movieDetailsData.genres?.map((genre) => (
                 <Badge
                   key={genre.id}
                   variant="secondary"
-                  className="rounded-full bg-white dark:bg-gray-800 border border-[#E4E4E7] dark:border-gray-700 text-[#09090B] dark:text-white text-xs sm:text-sm px-3 py-1"
+                  className="rounded-full bg-white dark:bg-[#09090B] border border-[#E4E4E7] dark:border-[#27272A] text-[#09090B] dark:text-white text-xs sm:text-sm px-3 py-1"
                 >
                   {genre.name}
                 </Badge>
               ))}
             </div>
 
-            {/* Overview */}
             <p className="text-sm sm:text-base font-normal leading-relaxed text-[#09090B] dark:text-gray-300">
               {movieDetailsData.overview}
             </p>
           </div>
         </div>
 
-        {/* Genres, Overview */}
-
-        {/* Movie Crew */}
         <MovieCrew />
       </div>
-
-      {/* More Like This */}
       <MoreLikeThis />
 
       <Footer />

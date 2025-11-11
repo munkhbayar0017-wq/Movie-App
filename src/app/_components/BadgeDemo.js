@@ -10,7 +10,7 @@ export function BadgeDemo({ genre, genreIds }) {
   return (
     <Badge
       variant="secondary"
-      className="w-min h-min flex items-center justify-center rounded-full bg-background border border-[#E4E4E7] cursor-pointer"
+      className="w-min h-min flex items-center justify-center rounded-full border border-[#E4E4E7] dark:border-[#27272A] cursor-pointer"
       onClick={handleClickGenreButtons}
     >
       {genre}

@@ -42,7 +42,6 @@ export default function MoviesPage({ data = [], page, setPage, param }) {
       <Header />
 
       <div className="flex flex-col gap-6 md:gap-8 w-full px-4 md:px-6 lg:px-8">
-        {/* Title Section */}
         <div className="flex flex-col gap-6 md:gap-8 pt-6 md:pt-10 lg:pt-[52px] items-center">
           <div className="w-full max-w-[1277px] flex justify-between items-center">
             <h1 className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B] dark:text-white">
@@ -50,7 +49,6 @@ export default function MoviesPage({ data = [], page, setPage, param }) {
             </h1>
           </div>
 
-          {/* Movies Grid */}
           <div className="w-full max-w-[1277px] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8 items-center justify-center">
             {data.slice(0, 10).map((movie) => (
               <MovieCard
@@ -65,11 +63,9 @@ export default function MoviesPage({ data = [], page, setPage, param }) {
           </div>
         </div>
 
-        {/* Pagination */}
         <div className="w-full max-w-[1277px] flex justify-center py-6 md:py-8">
           <Pagination>
             <PaginationContent className="flex-wrap gap-1 sm:gap-2">
-              {/* Previous Button */}
               <PaginationItem>
                 <PaginationPrevious
                   href="#"
@@ -80,7 +76,6 @@ export default function MoviesPage({ data = [], page, setPage, param }) {
                 />
               </PaginationItem>
 
-              {/* Page Numbers - Hide on mobile, show abbreviated */}
               <div className="hidden sm:flex items-center gap-1">
                 {Array.from({ length: endPage - startPage + 1 }, (_, i) => {
                   const pageNum = startPage + i;
@@ -104,7 +99,6 @@ export default function MoviesPage({ data = [], page, setPage, param }) {
                 )}
               </div>
 
-              {/* Mobile: Current Page Display */}
               <div className="sm:hidden flex items-center px-3 py-1.5 text-sm font-medium text-[#09090B] dark:text-white">
                 {Array.from({ length: endPage - startPage + 1 }, (_, i) => {
                   const pageNum = startPage + i;
@@ -126,8 +120,6 @@ export default function MoviesPage({ data = [], page, setPage, param }) {
                   </PaginationItem>
                 )}
               </div>
-
-              {/* Next Button */}
               <PaginationItem>
                 <PaginationNext
                   href="#"

@@ -8,7 +8,7 @@ const LeftIcon = (props) => (
     {...props}
   >
     <path
-      stroke="#18181B"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M10 12 6 8l4-4"

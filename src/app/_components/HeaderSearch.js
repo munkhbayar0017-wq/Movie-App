@@ -44,15 +44,14 @@ export const HeaderSearch = () => {
 
   const handleClickSeeAllResultsButton = () => {
     if (searchValue.trim()) {
-      router.push(`/seeAllResults/${searchValue}`);
+      router.push(`/seeAllResults/${encodeURIComponent(searchValue)}`);
       setIsOpen(false);
     }
   };
 
   return (
-    <div className="relative w-auto">
-      {/* Search Input */}
-      <div className="flex gap-2 items-center lg:pl-3 pl-2.5 w-full sm:w-[300px] md:w-[350px] lg:w-[379px] h-[36px] border border-[#E4E4E7] dark:border-gray-700 rounded-md bg-white dark:bg-gray-800">
+    <div className="lg:relative lg:w-auto">
+      <div className="flex gap-2 items-center lg:pl-3 pl-2.5 w-full sm:w-[300px] md:w-[350px] lg:w-[379px] h-[36px] lg:border lg:border-[#E4E4E7] dark:border-[#27272A] rounded-md bg-white dark:bg-[#09090B]">
         <SearchIcon className="w-4 h-4 shrink-0 text-gray-500 dark:text-gray-400" />
         <input
           placeholder="Search.."
@@ -63,7 +62,6 @@ export const HeaderSearch = () => {
           }}
           onFocus={() => setIsOpen(true)}
           onBlur={() => {
-            // Delay to allow clicking on results
             setTimeout(() => setIsOpen(false), 200);
           }}
           onKeyDown={(e) => {
@@ -78,11 +76,10 @@ export const HeaderSearch = () => {
         />
       </div>
 
-      {/* Search Results Dropdown */}
       {searchValue && isOpen && (
         <div
           className="
-          absolute z-50 bg-white dark:bg-gray-800 rounded-lg border border-[#E4E4E7] dark:border-gray-700 
+          absolute z-50 bg-white dark:bg-[#09090B] rounded-lg border border-[#E4E4E7] dark:border-[#27272A] 
           mt-1 
           w-full sm:w-[400px] md:w-[500px] lg:w-[577px]
           left-0 sm:left-auto sm:right-0
@@ -90,6 +87,7 @@ export const HeaderSearch = () => {
           shadow-lg
           opacity-100 visible
           transition-all duration-200
+          flex flex-col items-center
         "
         >
           {loading ? (
@@ -102,8 +100,7 @@ export const HeaderSearch = () => {
             </div>
           ) : (
             <>
-              {/* Results */}
-              <div className="max-h-[400px] overflow-y-auto">
+              <div className="h-auto w-fit flex flex-col justify-center items-center">
                 {headerSearchData.slice(0, 5).map((movie) => (
                   <div
                     key={movie.id}
@@ -124,12 +121,12 @@ export const HeaderSearch = () => {
                 ))}
               </div>
 
-              {/* See All Button */}
               <button
-                className="text-sm font-medium leading-[20px] py-3 px-4 cursor-pointer w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 border-t border-[#E4E4E7] dark:border-gray-700 text-[#09090B] dark:text-white transition-colors sticky bottom-0 bg-white dark:bg-gray-800"
+                className="text-sm font-medium leading-[20px] py-3 px-4 cursor-pointer w-full text-left hover:bg-gray-100 dark:hover:bg-gray-700 border-t border-[#E4E4E7] dark:border-[#27272A] text-[#09090B] dark:text-white transition-colors sticky bottom-0 bg-white dark:bg-[#09090B]"
                 onClick={handleClickSeeAllResultsButton}
               >
-                See all results for &quot;{searchValue}&quot;
+                See all results for &quot;{searchValue}
+                &quot;
               </button>
             </>
           )}

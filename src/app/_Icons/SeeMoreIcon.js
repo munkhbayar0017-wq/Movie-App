@@ -8,7 +8,7 @@ const SeeMoreIcon = (props) => (
     {...props}
   >
     <path
-      stroke="#18181B"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       d="M1.333 6h9.333m0 0L6 1.333M10.666 6 6 10.667"
