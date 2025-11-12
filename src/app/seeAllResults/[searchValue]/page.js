@@ -211,16 +211,16 @@ export default function SeeAllResults() {
     <div className="flex flex-col items-center box-border justify-center">
       <Header />
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 lg:px-0 w-full max-w-[1280px] mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 lg:px-0 lg:h-screen max-w-[1280px] mx-auto">
         <div className="flex flex-col gap-8 pt-[52px] items-center">
           <div className="w-full flex justify-between items-center">
-            <p className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B]">
+            <p className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B] dark:text-white">
               Search results
             </p>
           </div>
           <div className="flex flex-col lg:flex-row gap-7 w-full">
             <div className="flex flex-col gap-8">
-              <p className="text-[#09090B] font-inter text-[20px] font-semibold leading-[28px] tracking-[-0.5px]">
+              <p className="text-[#09090B] font-inter text-[20px] font-semibold leading-[28px] tracking-[-0.5px] dark:text-white">
                 {seeAllResultsData.total_results} results for &quot;
                 {decodeURIComponent(searchValue)}&quot;
               </p>

@@ -3,7 +3,7 @@
 import { Footer } from "@/app/_features/Footer";
 import { Header } from "@/app/_features/Header";
 import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { ACCESS_TOKEN, BASE_URL } from "@/app/_constants";
 import {
   Pagination,
@@ -28,7 +28,6 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [visibleCount, setVisibleCount] = useState(20);
   const [page, setPage] = useState(1);
-  const router = useRouter();
 
   const fetchGenres = async () => {
     const res = await fetch(`${BASE_URL}/genre/movie/list?language=en`, {
@@ -99,7 +98,7 @@ export default function Page() {
       <div className="flex flex-col gap-8 px-4 sm:px-6 lg:px-0 w-full max-w-[1280px] mx-auto">
         <div className="flex flex-col gap-8 pt-[52px] items-center">
           <div className="w-full flex justify-between items-center">
-            <p className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B]">
+            <p className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B] dark:text-white">
               Filtered Search
             </p>
           </div>
