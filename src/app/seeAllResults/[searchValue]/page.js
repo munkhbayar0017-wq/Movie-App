@@ -116,7 +116,7 @@ export default function SeeAllResults() {
       <div className="flex flex-col items-center box-border justify-center gap-full">
         <Header />
 
-        <div className="flex flex-col gap-8 px-4 sm:px-6 lg:px-0 w-full max-w-[1280px] mx-auto">
+        <div className="flex flex-col gap-8 px-4 sm:px-6 lg:px-0 lg:h-screen w-full max-w-[1280px] mx-auto">
           <div className="flex flex-col gap-8 pt-[52px] items-center">
             <div className="w-full flex justify-between items-center">
               <p className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B]">
@@ -211,7 +211,7 @@ export default function SeeAllResults() {
     <div className="flex flex-col items-center box-border justify-center">
       <Header />
 
-      <div className="flex flex-col gap-8 px-4 sm:px-6 lg:px-0 lg:h-screen max-w-[1280px] mx-auto">
+      <div className="flex flex-col gap-8 px-4 sm:px-6 lg:px-0 max-w-[1280px] mx-auto">
         <div className="flex flex-col gap-8 pt-[52px] items-center">
           <div className="w-full flex justify-between items-center">
             <p className="font-semibold text-xl sm:text-2xl leading-tight tracking-[-0.6px] text-[#09090B] dark:text-white">
